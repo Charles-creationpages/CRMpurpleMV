@@ -23,33 +23,45 @@
 body{background:var(--bg);color:var(--text);font-family:"Inter",sans-serif;font-size:14px;line-height:1.5;}
 .brand-font{font-family:"Barlow",sans-serif;}
 
-.app{height:100vh;display:flex;flex-direction:column;overflow:hidden;}
+.app{display:flex;height:100vh;overflow:hidden;}
+
+/* SIDEBAR */
+.sb{width:212px;min-width:212px;background:var(--brown-dark);display:flex;flex-direction:column;flex-shrink:0;}
+.sb-brand{padding:20px 16px;display:flex;align-items:center;gap:11px;border-bottom:1px solid rgba(255,255,255,.08);}
+.sb-logo{width:38px;height:38px;background:var(--gold);border-radius:11px;display:flex;align-items:center;justify-content:center;color:var(--brown-dark);font-weight:800;font-size:19px;font-family:"Barlow",sans-serif;flex-shrink:0;}
+.sb-name{font-family:"Barlow",sans-serif;font-weight:800;font-size:18px;color:#fff;line-height:1;}
+.sb-sub{font-size:9px;color:rgba(255,255,255,.45);font-weight:600;letter-spacing:.09em;margin-top:3px;}
+.sb-nav{padding:12px 10px;flex:1;display:flex;flex-direction:column;gap:3px;}
+.nav-item{display:flex;align-items:center;gap:11px;padding:11px 13px;border-radius:10px;color:rgba(255,255,255,.62);font-weight:700;font-size:13.5px;cursor:pointer;font-family:"Barlow",sans-serif;transition:all .15s;}
+.nav-item:hover{background:rgba(255,255,255,.07);color:#fff;}
+.nav-item.active{background:var(--gold);color:var(--brown-dark);}
+.nav-item .nl{flex:1;}
+.nav-count{background:rgba(255,255,255,.14);color:#fff;border-radius:20px;padding:0 7px;font-size:11px;font-weight:700;}
+.nav-item.active .nav-count{background:rgba(74,58,43,.2);color:var(--brown-dark);}
+.nav-soon{font-size:8.5px;font-weight:800;color:var(--gold);letter-spacing:.04em;}
+.nav-item.active .nav-soon{color:var(--brown-dark);}
+.sb-footer{padding:14px;border-top:1px solid rgba(255,255,255,.08);}
+.logout-btn{display:flex;align-items:center;gap:8px;width:100%;background:rgba(255,255,255,.08);border:none;color:rgba(255,255,255,.72);padding:9px 12px;border-radius:9px;cursor:pointer;font-family:"Inter",sans-serif;font-size:12.5px;font-weight:600;transition:all .15s;}
+.logout-btn:hover{background:rgba(255,255,255,.16);color:#fff;}
+
+/* CONTENT */
+.content{flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden;}
 .demo-banner{background:var(--accent-l);color:var(--accent-d);font-size:12px;font-weight:600;text-align:center;padding:6px 14px;flex-shrink:0;border-bottom:1px solid var(--accent-l2);}
-.topbar{background:var(--brown-dark);padding:13px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;flex-shrink:0;}
-.tb-left{display:flex;align-items:center;gap:12px;}
-.tb-logo{width:38px;height:38px;background:var(--gold);border-radius:11px;display:flex;align-items:center;justify-content:center;color:var(--brown-dark);font-weight:800;font-size:19px;font-family:"Barlow",sans-serif;}
-.tb-name{font-family:"Barlow",sans-serif;font-weight:800;font-size:19px;color:#fff;line-height:1;}
-.tb-sub{font-size:10px;color:rgba(255,255,255,.5);font-weight:600;letter-spacing:.1em;margin-top:3px;}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;flex-shrink:0;}
+.pt{font-family:"Barlow",sans-serif;font-weight:800;font-size:20px;color:var(--text);line-height:1;}
+.ps{font-size:12px;color:var(--text3);margin-top:3px;}
 .tb-right{display:flex;align-items:center;gap:10px;}
-.search-bar{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.14);border-radius:10px;padding:8px 12px;width:190px;color:rgba(255,255,255,.6);}
-.search-bar input{border:none;background:transparent;outline:none;font-family:"Inter",sans-serif;font-size:13px;color:#fff;width:100%;}
-.search-bar input::placeholder{color:rgba(255,255,255,.45);}
+.search-bar{display:flex;align-items:center;gap:7px;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:8px 12px;width:220px;color:var(--text3);}
+.search-bar input{border:none;background:transparent;outline:none;font-family:"Inter",sans-serif;font-size:13px;color:var(--text);width:100%;}
+.search-bar input::placeholder{color:var(--text3);}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:9px 15px;border-radius:9px;font-family:"Inter",sans-serif;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:all .15s;white-space:nowrap;}
-.btn-p{background:var(--gold);color:var(--brown-dark);}
-.btn-p:hover{background:#bda678;}
+.btn-p{background:var(--accent);color:#fff;box-shadow:0 3px 10px rgba(139,107,67,.28);}
+.btn-p:hover{background:var(--accent-d);}
 .btn-g{background:transparent;border:1.5px solid var(--border2);color:var(--text2);}
 .btn-g:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-l);}
-.tb-icon{background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.14);color:rgba(255,255,255,.8);width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
-.tb-icon:hover{background:rgba(255,255,255,.18);}
+.mobile-logout{display:none;background:var(--surface2);border:1.5px solid var(--border2);color:var(--text2);width:38px;height:38px;border-radius:9px;cursor:pointer;align-items:center;justify-content:center;flex-shrink:0;}
 
-.tabs{background:var(--brown-dark);padding:0 22px;display:flex;gap:2px;flex-shrink:0;overflow-x:auto;border-top:1px solid rgba(255,255,255,.07);}
-.tab{padding:12px 16px 11px;font-size:13.5px;font-weight:700;color:rgba(255,255,255,.5);cursor:pointer;border:none;background:none;border-bottom:2.5px solid transparent;font-family:"Barlow",sans-serif;white-space:nowrap;display:flex;align-items:center;gap:7px;transition:color .15s;}
-.tab:hover{color:rgba(255,255,255,.8);}
-.tab.active{color:#fff;border-bottom-color:var(--gold);}
-.tab .tcount{background:rgba(255,255,255,.16);color:#fff;border-radius:20px;padding:0 7px;font-size:11px;font-weight:700;}
-.tab .soon{background:var(--gold);color:var(--brown-dark);border-radius:20px;padding:1px 7px;font-size:9px;font-weight:800;letter-spacing:.03em;}
-
-.content{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden;}
+.body{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden;}
 .board-scroll{flex:1;overflow-x:auto;overflow-y:hidden;padding:18px 22px;}
 .kb-wrap{display:flex;gap:13px;align-items:flex-start;height:100%;min-width:min-content;}
 .kb-col{background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:12px 11px;width:238px;min-width:238px;flex-shrink:0;max-height:100%;display:flex;flex-direction:column;transition:all .15s;}
@@ -106,7 +118,7 @@ body{background:var(--bg);color:var(--text);font-family:"Inter",sans-serif;font-
 .empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--text3);gap:6px;text-align:center;padding:40px;}
 .empty .et{font-family:"Barlow",sans-serif;font-weight:800;font-size:18px;color:var(--text2);}
 .empty .es{font-size:13px;max-width:360px;}
-.soon-badge{background:var(--gold);color:var(--brown-dark);font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px;letter-spacing:.03em;}
+.soon-badge{background:var(--gold);color:var(--brown-dark);font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px;letter-spacing:.03em;margin-top:4px;}
 
 .overlay{position:fixed;inset:0;background:rgba(74,58,43,.5);display:flex;align-items:center;justify-content:center;z-index:100;backdrop-filter:blur(4px);padding:20px;}
 .modal{background:var(--surface);border-radius:18px;padding:24px;width:500px;max-height:92vh;overflow-y:auto;box-shadow:var(--sh-lg);}
@@ -131,19 +143,26 @@ body{background:var(--bg);color:var(--text);font-family:"Inter",sans-serif;font-
 .login-title{font-family:"Barlow",sans-serif;font-weight:800;font-size:21px;text-align:center;margin-bottom:2px;}
 .login-sub{text-align:center;font-size:12px;color:var(--text3);margin-bottom:24px;}
 
+/* BOTTOM NAV (mobile) */
+.bottom-nav{display:none;background:var(--surface);border-top:1px solid var(--border);padding:7px 4px;flex-shrink:0;}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--text3);font-size:9.5px;font-weight:700;background:none;border:none;font-family:"Barlow",sans-serif;padding:3px;cursor:pointer;}
+.bn-item.active{color:var(--accent-d);}
+
 ::-webkit-scrollbar{width:7px;height:9px;}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:5px;}
 ::-webkit-scrollbar-track{background:transparent;}
 
 @media(max-width:768px){
-  .topbar{padding:11px 14px;}
-  .tabs{padding:0 10px;}
+  .app{flex-direction:column;}
+  .sb{display:none;}
+  .bottom-nav{display:flex;}
+  .topbar{padding:12px 15px;}
   .search-bar{flex:1;width:auto;}
-  .tb-right{width:100%;}
   .board-scroll,.pane{padding:14px;}
   .overlay{padding:0;}
   .modal{width:100%;max-width:100%;max-height:100vh;border-radius:0;}
   .fr{grid-template-columns:1fr;}
+  .mobile-logout{display:flex;}
 }
 </style>
 </head>
@@ -225,7 +244,6 @@ const Ic = ({n,s=14}) => {
   return null;
 };
 
-// ─── CARTE PIPELINE ──────────────────────────────────────
 function Card({ d, onEdit, onMove, onDelete, onDragStart, menuOpen, onToggleMenu }){
   const parts = (d.nom||"").trim().split(/\s+/);
   const last = parts.length ? parts[parts.length-1] : "";
@@ -237,10 +255,7 @@ function Card({ d, onEdit, onMove, onDelete, onDragStart, menuOpen, onToggleMenu
   return (
     <div className={cls} draggable onDragStart={e=>onDragStart(e,d.id)} onClick={()=>onEdit(d)}>
       <div className="card-hd">
-        <div className="card-name">
-          {first && <span className="cn-first">{first} </span>}
-          <span className="cn-last">{last||"—"}</span>
-        </div>
+        <div className="card-name">{first && <span className="cn-first">{first} </span>}<span className="cn-last">{last||"—"}</span></div>
         <div className="card-acts">
           <button className="cact" title="Modifier" onClick={e=>{e.stopPropagation();onEdit(d);}}><Ic n="edit" s={15}/></button>
           <button className="cact" title="Déplacer / supprimer" onClick={e=>{e.stopPropagation();onToggleMenu(d.id);}}><Ic n="dots" s={16}/></button>
@@ -250,9 +265,7 @@ function Card({ d, onEdit, onMove, onDelete, onDragStart, menuOpen, onToggleMenu
         <div className="cmenu" onClick={e=>e.stopPropagation()}>
           <div className="cmenu-lbl">Déplacer vers</div>
           {COLS.filter(c=>c.id!==d.col).map(c=>(
-            <button key={c.id} className="cmenu-item" onClick={()=>onMove(d.id,c.id)}>
-              <span className="kb-dot" style={{background:c.color}}/>{c.label}
-            </button>
+            <button key={c.id} className="cmenu-item" onClick={()=>onMove(d.id,c.id)}><span className="kb-dot" style={{background:c.color}}/>{c.label}</button>
           ))}
           <div className="cmenu-sep"/>
           <button className="cmenu-item cmenu-del" onClick={()=>onDelete(d.id)}><Ic n="trash" s={14}/>Supprimer</button>
@@ -270,7 +283,6 @@ function Card({ d, onEdit, onMove, onDelete, onDragStart, menuOpen, onToggleMenu
   );
 }
 
-// ─── MODALE FICHE ────────────────────────────────────────
 function LeadModal({ lead, gate, onSave, onDelete, onClose }){
   const editing = !!lead.id;
   const [f,setF] = useState({...blank, ...lead, typos:asArray(lead.typos)});
@@ -279,40 +291,30 @@ function LeadModal({ lead, gate, onSave, onDelete, onClose }){
   const toggleTypo = (t)=>setF(p=>({...p, typos: p.typos.includes(t)?p.typos.filter(x=>x!==t):[...p.typos,t]}));
   const save = () => {
     if(!f.nom.trim()){ setErr("Renseigne au moins un nom."); return; }
-    if(RECH_STAGES.includes(f.col) && !criteriaComplete(f)){
-      setErr("Pour « "+labelOf(f.col)+" », complète : ville, budget, typologie, surface et rendement.");
-      return;
-    }
+    if(RECH_STAGES.includes(f.col) && !criteriaComplete(f)){ setErr("Pour « "+labelOf(f.col)+" », complète : ville, budget, typologie, surface et rendement."); return; }
     onSave(f);
   };
   return (
     <div className="overlay" onClick={onClose}>
       <div className="modal" onClick={e=>e.stopPropagation()}>
         <div className="modal-title">{editing?(f.nom||"Dossier"):"Nouveau dossier"}</div>
-        <div className="modal-sub">{editing?("Créé — étape actuelle : "+labelOf(lead.col)):"Créé en R1"}</div>
+        <div className="modal-sub">{editing?("Étape actuelle : "+labelOf(lead.col)):"Créé en R1"}</div>
         {gate && <div className="gate">🔒 Pour lancer la recherche, les critères ci-dessous doivent être remplis.</div>}
         {err && <div className="ferr">{err}</div>}
-
         <div className="modal-sec">Coordonnées</div>
-        <div className="fg"><label className="fl">Nom du client</label>
-          <input className="fi" autoFocus value={f.nom} onChange={e=>set("nom",e.target.value)} placeholder="Prénom NOM"/></div>
+        <div className="fg"><label className="fl">Nom du client</label><input className="fi" autoFocus value={f.nom} onChange={e=>set("nom",e.target.value)} placeholder="Prénom NOM"/></div>
         <div className="fr">
           <div className="fg"><label className="fl">Téléphone</label><input className="fi" value={f.tel} onChange={e=>set("tel",e.target.value)}/></div>
           <div className="fg"><label className="fl">Email</label><input className="fi" value={f.email} onChange={e=>set("email",e.target.value)}/></div>
         </div>
         <div className="fr">
           <div className="fg"><label className="fl">Étape</label>
-            <select className="fi" value={f.col} onChange={e=>set("col",e.target.value)}>
-              {COLS.map(c=><option key={c.id} value={c.id}>{c.label}</option>)}
-            </select></div>
+            <select className="fi" value={f.col} onChange={e=>set("col",e.target.value)}>{COLS.map(c=><option key={c.id} value={c.id}>{c.label}</option>)}</select></div>
           <div className="fg"><label className="fl">Date</label><input className="fi" type="date" value={f.date} onChange={e=>set("date",e.target.value)}/></div>
         </div>
-
         <div className="modal-sec">Critères de recherche</div>
-        <div className="fg"><label className="fl">Ville cible *</label>
-          <div className="seg">{VILLES.map(v=>(<button key={v} type="button" className={"seg-btn"+(f.ville===v?" active":"")} onClick={()=>set("ville",v)}>{v}</button>))}</div></div>
-        <div className="fg"><label className="fl">Typologie(s) * — plusieurs possibles</label>
-          <div className="seg">{TYPOS.map(t=>(<button key={t} type="button" className={"seg-btn"+(f.typos.includes(t)?" active":"")} onClick={()=>toggleTypo(t)}>{t}</button>))}</div></div>
+        <div className="fg"><label className="fl">Ville cible *</label><div className="seg">{VILLES.map(v=>(<button key={v} type="button" className={"seg-btn"+(f.ville===v?" active":"")} onClick={()=>set("ville",v)}>{v}</button>))}</div></div>
+        <div className="fg"><label className="fl">Typologie(s) * — plusieurs possibles</label><div className="seg">{TYPOS.map(t=>(<button key={t} type="button" className={"seg-btn"+(f.typos.includes(t)?" active":"")} onClick={()=>toggleTypo(t)}>{t}</button>))}</div></div>
         <div className="fr">
           <div className="fg"><label className="fl">Budget max (€) *</label><input className="fi" value={f.budget} onChange={e=>set("budget",e.target.value)} placeholder="ex : 120 000"/></div>
           <div className="fg"><label className="fl">Surface min (m²) *</label><input className="fi" type="number" value={f.surface} onChange={e=>set("surface",e.target.value)}/></div>
@@ -321,14 +323,10 @@ function LeadModal({ lead, gate, onSave, onDelete, onClose }){
           <div className="fg"><label className="fl">Rendement brut cible (%) *</label><input className="fi" type="number" step="0.1" value={f.rendement} onChange={e=>set("rendement",e.target.value)} placeholder="ex : 6"/></div>
           <div className="fg"><label className="fl">Honoraires (€)</label><input className="fi" value={f.hono} onChange={e=>set("hono",e.target.value)} placeholder="8 900 min. ou 7%"/></div>
         </div>
-        <div className="fg"><label className="fl">Location</label>
-          <div className="seg">{MEUBLE.map(m=>(<button key={m} type="button" className={"seg-btn"+(f.meuble===m?" active":"")} onClick={()=>set("meuble",m)}>{m}</button>))}</div></div>
-        <div className="fg"><label className="fl">Travaux</label>
-          <div className="seg">{TRAVAUX.map(t=>(<button key={t} type="button" className={"seg-btn"+(f.travaux===t?" active":"")} onClick={()=>set("travaux",t)}>{t}</button>))}</div></div>
-
+        <div className="fg"><label className="fl">Location</label><div className="seg">{MEUBLE.map(m=>(<button key={m} type="button" className={"seg-btn"+(f.meuble===m?" active":"")} onClick={()=>set("meuble",m)}>{m}</button>))}</div></div>
+        <div className="fg"><label className="fl">Travaux</label><div className="seg">{TRAVAUX.map(t=>(<button key={t} type="button" className={"seg-btn"+(f.travaux===t?" active":"")} onClick={()=>set("travaux",t)}>{t}</button>))}</div></div>
         <div className="modal-sec">Note</div>
         <textarea className="fi" rows="2" value={f.note} onChange={e=>set("note",e.target.value)}/>
-
         <div className="fa">
           {editing && <button className="btn btn-g" style={{color:"#B4482F"}} onClick={()=>onDelete(lead.id)}>Supprimer</button>}
           <button className="btn btn-g" onClick={onClose}>Annuler</button>
@@ -339,11 +337,9 @@ function LeadModal({ lead, gate, onSave, onDelete, onClose }){
   );
 }
 
-// ─── ONGLET RECHERCHE ────────────────────────────────────
 function Recherche({ leads, search, onOpen }){
   const q = search.trim().toLowerCase();
-  const rows = leads
-    .filter(l=>RECH_STAGES.includes(l.col))
+  const rows = leads.filter(l=>RECH_STAGES.includes(l.col))
     .filter(l=>!q || (l.nom||"").toLowerCase().includes(q) || (l.ville||"").toLowerCase().includes(q))
     .sort((a,b)=>String(a.nom).localeCompare(String(b.nom)));
   if(rows.length===0) return (
@@ -353,9 +349,7 @@ function Recherche({ leads, search, onOpen }){
   return (
     <div className="pane">
       <table className="list-table">
-        <thead><tr>
-          <th>Client</th><th>Étape</th><th>Ville</th><th>Typologies</th><th>Surface min</th><th>Budget max</th><th>Rendement</th><th>Location</th><th>Travaux</th>
-        </tr></thead>
+        <thead><tr><th>Client</th><th>Étape</th><th>Ville</th><th>Typologies</th><th>Surface min</th><th>Budget max</th><th>Rendement</th><th>Location</th><th>Travaux</th></tr></thead>
         <tbody>
           {rows.map(l=>{
             const done = criteriaComplete(l);
@@ -379,14 +373,11 @@ function Recherche({ leads, search, onOpen }){
   );
 }
 
-// ─── PIPELINE ────────────────────────────────────────────
 function Pipeline({ leads, search, onEdit, onMove, onDelete, menuId, setMenuId }){
   const [dragOver,setDragOver] = useState(null);
   const dragId = useRef(null);
   const q = search.trim().toLowerCase();
-  const visible = leads.filter(l=>!q ||
-    (l.nom||"").toLowerCase().includes(q) || (l.ville||"").toLowerCase().includes(q) ||
-    (l.tel||"").includes(q) || (l.email||"").toLowerCase().includes(q));
+  const visible = leads.filter(l=>!q || (l.nom||"").toLowerCase().includes(q) || (l.ville||"").toLowerCase().includes(q) || (l.tel||"").includes(q) || (l.email||"").toLowerCase().includes(q));
   const byDate = (a,b)=>String(b.date||"").localeCompare(String(a.date||""));
   const onDragStart = (e,id)=>{ dragId.current=id; e.dataTransfer.setData("text",id); };
   return (
@@ -396,20 +387,12 @@ function Pipeline({ leads, search, onEdit, onMove, onDelete, menuId, setMenuId }
           const items = visible.filter(l=>l.col===col.id).sort(byDate);
           return (
             <div key={col.id} className={"kb-col"+(dragOver===col.id?" drag-over":"")}
-              onDragOver={e=>{e.preventDefault();setDragOver(col.id);}}
-              onDragLeave={()=>setDragOver(null)}
+              onDragOver={e=>{e.preventDefault();setDragOver(col.id);}} onDragLeave={()=>setDragOver(null)}
               onDrop={e=>{e.preventDefault();setDragOver(null);if(dragId.current)onMove(dragId.current,col.id);dragId.current=null;}}>
-              <div className="kb-col-hd">
-                <span className="kb-dot" style={{background:col.color}}/>
-                <span className="kb-col-title">{col.label}</span>
-                <span className="kb-count">{items.length}</span>
-              </div>
+              <div className="kb-col-hd"><span className="kb-dot" style={{background:col.color}}/><span className="kb-col-title">{col.label}</span><span className="kb-count">{items.length}</span></div>
               <div className="kb-list">
                 {items.length===0 && <div className="kb-empty">Aucun dossier</div>}
-                {items.map(d=>(
-                  <Card key={d.id} d={d} onEdit={onEdit} onMove={onMove} onDelete={onDelete} onDragStart={onDragStart}
-                    menuOpen={menuId===d.id} onToggleMenu={id=>setMenuId(m=>m===id?null:id)}/>
-                ))}
+                {items.map(d=>(<Card key={d.id} d={d} onEdit={onEdit} onMove={onMove} onDelete={onDelete} onDragStart={onDragStart} menuOpen={menuId===d.id} onToggleMenu={id=>setMenuId(m=>m===id?null:id)}/>))}
               </div>
             </div>
           );
@@ -422,14 +405,11 @@ function Pipeline({ leads, search, onEdit, onMove, onDelete, menuId, setMenuId }
 function Login({ fb }){
   const [email,setEmail]=useState(""); const [pw,setPw]=useState("");
   const [err,setErr]=useState(""); const [loading,setLoading]=useState(false);
-  const submit=()=>{ if(!email||!pw){ setErr("Email et mot de passe requis."); return; }
-    setErr(""); setLoading(true);
+  const submit=()=>{ if(!email||!pw){ setErr("Email et mot de passe requis."); return; } setErr(""); setLoading(true);
     fb.signInWithEmailAndPassword(fb.auth, email.trim(), pw).catch(()=>setErr("Email ou mot de passe incorrect.")).finally(()=>setLoading(false)); };
   return (
     <div className="login-wrap"><div className="login-card">
-      <div className="login-logo">p</div>
-      <div className="login-title">Purple · Mâcon</div>
-      <div className="login-sub">Suivi des dossiers</div>
+      <div className="login-logo">p</div><div className="login-title">Purple · Mâcon</div><div className="login-sub">Suivi des dossiers</div>
       {err && <div className="ferr" style={{textAlign:"center"}}>{err}</div>}
       <div className="fg"><label className="fl">Email</label><input className="fi" type="email" value={email} onChange={e=>setEmail(e.target.value)} onKeyDown={e=>e.key==="Enter"&&submit()} autoFocus/></div>
       <div className="fg"><label className="fl">Mot de passe</label><input className="fi" type="password" value={pw} onChange={e=>setPw(e.target.value)} onKeyDown={e=>e.key==="Enter"&&submit()}/></div>
@@ -438,19 +418,15 @@ function Login({ fb }){
   );
 }
 
-// ─── SHELL ───────────────────────────────────────────────
 function Shell({ fb, demo, user }){
   const [leads,setLeads] = useState(demo?SEED:[]);
   const [tab,setTab] = useState("pipeline");
-  const [modal,setModal] = useState(null);   // {lead, gate}
+  const [modal,setModal] = useState(null);
   const [search,setSearch] = useState("");
   const [menuId,setMenuId] = useState(null);
 
-  useEffect(()=>{
-    if(demo || !user) return;
-    return fb.onSnapshot(fb.collection(fb.db,"dossiers"), snap=>{
-      setLeads(snap.docs.map(d=>({id:d.id, ...d.data()})));
-    }, ()=>{});
+  useEffect(()=>{ if(demo || !user) return;
+    return fb.onSnapshot(fb.collection(fb.db,"dossiers"), snap=>{ setLeads(snap.docs.map(d=>({id:d.id, ...d.data()}))); }, ()=>{});
   },[user]);
   useEffect(()=>{ if(!menuId) return; const h=()=>setMenuId(null); window.addEventListener("click",h); return ()=>window.removeEventListener("click",h); },[menuId]);
 
@@ -458,23 +434,19 @@ function Shell({ fb, demo, user }){
     setMenuId(null);
     const lead = leads.find(l=>l.id===id); if(!lead) return;
     if(col==="recherche" && !criteriaComplete(lead)){ setModal({lead:{...lead,col:"recherche"}, gate:true}); return; }
-    if(demo){ setLeads(ls=>ls.map(l=>l.id===id?{...l,col}:l)); }
-    else { fb.updateDoc(fb.doc(fb.db,"dossiers",id),{col}); }
+    if(demo){ setLeads(ls=>ls.map(l=>l.id===id?{...l,col}:l)); } else { fb.updateDoc(fb.doc(fb.db,"dossiers",id),{col}); }
   };
   const saveLead = (f)=>{
     setModal(null);
     if(demo){ setLeads(ls=> f.id ? ls.map(l=>l.id===f.id?{...f}:l) : [...ls,{...f,id:uid()}]); }
     else { const {id,...data}=f; if(id) fb.updateDoc(fb.doc(fb.db,"dossiers",id),data); else fb.addDoc(fb.collection(fb.db,"dossiers"),data); }
   };
-  const delLead = (id)=>{
-    setModal(null); setMenuId(null);
-    if(demo){ setLeads(ls=>ls.filter(l=>l.id!==id)); }
-    else { fb.deleteDoc(fb.doc(fb.db,"dossiers",id)); }
-  };
+  const delLead = (id)=>{ setModal(null); setMenuId(null); if(demo){ setLeads(ls=>ls.filter(l=>l.id!==id)); } else { fb.deleteDoc(fb.doc(fb.db,"dossiers",id)); } };
   const openEdit = (l)=>setModal({lead:l, gate:false});
 
   const rechCount = leads.filter(l=>RECH_STAGES.includes(l.col)).length;
   const showAdd = tab==="pipeline" || tab==="recherche";
+  const showSearch = tab==="pipeline" || tab==="recherche";
 
   const TABS = [
     {id:"pipeline",  label:"Pipeline",  icon:"board", count:leads.length},
@@ -482,37 +454,51 @@ function Shell({ fb, demo, user }){
     {id:"biens",     label:"Biens",     icon:"home",  soon:true},
     {id:"matching",  label:"Matching",  icon:"target",soon:true},
   ];
+  const META = {
+    pipeline:  {t:"Pipeline",  s:leads.length+" dossier"+(leads.length>1?"s":"")+" au total"},
+    recherche: {t:"Recherche", s:rechCount+" recherche"+(rechCount>1?"s":"")+" active"+(rechCount>1?"s":"")},
+    biens:     {t:"Biens",     s:"Bientôt disponible"},
+    matching:  {t:"Matching",  s:"Bientôt disponible"},
+  };
 
   return (
     <div className="app">
-      {demo && <div className="demo-banner">Aperçu de démonstration — les données ne sont pas sauvegardées ici.</div>}
-      <div className="topbar">
-        <div className="tb-left">
-          <div className="tb-logo">p</div>
-          <div><div className="tb-name">Purple</div><div className="tb-sub">SUIVI · MÂCON / VILLEFRANCHE</div></div>
+      <aside className="sb">
+        <div className="sb-brand"><div className="sb-logo">p</div><div><div className="sb-name">Purple</div><div className="sb-sub">MÂCON / VILLEFRANCHE</div></div></div>
+        <div className="sb-nav">
+          {TABS.map(t=>(
+            <div key={t.id} className={"nav-item"+(tab===t.id?" active":"")} onClick={()=>setTab(t.id)}>
+              <Ic n={t.icon} s={17}/><span className="nl">{t.label}</span>
+              {t.soon ? <span className="nav-soon">BIENTÔT</span> : <span className="nav-count">{t.count}</span>}
+            </div>
+          ))}
         </div>
-        <div className="tb-right">
-          <div className="search-bar"><Ic n="search" s={14}/><input placeholder="Rechercher…" value={search} onChange={e=>setSearch(e.target.value)}/></div>
-          {showAdd && <button className="btn btn-p" onClick={()=>setModal({lead:{...blank}, gate:false})}>＋ Dossier</button>}
-          {!demo && <button className="tb-icon" title="Se déconnecter" onClick={()=>fb.signOut(fb.auth)}><Ic n="logout" s={17}/></button>}
-        </div>
-      </div>
-
-      <div className="tabs">
-        {TABS.map(t=>(
-          <button key={t.id} className={"tab"+(tab===t.id?" active":"")} onClick={()=>setTab(t.id)}>
-            <Ic n={t.icon} s={16}/>{t.label}
-            {t.soon ? <span className="soon">BIENTÔT</span> : <span className="tcount">{t.count}</span>}
-          </button>
-        ))}
-      </div>
+        {!demo && <div className="sb-footer"><button className="logout-btn" onClick={()=>fb.signOut(fb.auth)}><Ic n="logout" s={15}/>Se déconnecter</button></div>}
+      </aside>
 
       <div className="content">
-        {tab==="pipeline" && <Pipeline leads={leads} search={search} onEdit={openEdit} onMove={move} onDelete={delLead} menuId={menuId} setMenuId={setMenuId}/>}
-        {tab==="recherche" && <Recherche leads={leads} search={search} onOpen={openEdit}/>}
-        {tab==="biens" && <div className="empty"><Ic n="home" s={30}/><div className="et">Onglet Biens</div><div className="es">Prochaine étape : ajouter des biens (adresse, prix, loyer, rendement auto…).</div><div className="soon-badge">BIENTÔT</div></div>}
-        {tab==="matching" && <div className="empty"><Ic n="target" s={30}/><div className="et">Onglet Matching</div><div className="es">On y déposera un bien pour le scorer contre les recherches enregistrées (ville &gt; budget &gt; rendement &gt; surface &gt; typologie).</div><div className="soon-badge">BIENTÔT</div></div>}
+        {demo && <div className="demo-banner">Aperçu de démonstration — les données ne sont pas sauvegardées ici.</div>}
+        <div className="topbar">
+          <div><div className="pt">{META[tab].t}</div><div className="ps">{META[tab].s}</div></div>
+          <div className="tb-right">
+            {showSearch && <div className="search-bar"><Ic n="search" s={14}/><input placeholder="Rechercher…" value={search} onChange={e=>setSearch(e.target.value)}/></div>}
+            {showAdd && <button className="btn btn-p" onClick={()=>setModal({lead:{...blank}, gate:false})}>＋ Dossier</button>}
+            {!demo && <button className="mobile-logout" title="Se déconnecter" onClick={()=>fb.signOut(fb.auth)}><Ic n="logout" s={17}/></button>}
+          </div>
+        </div>
+        <div className="body">
+          {tab==="pipeline" && <Pipeline leads={leads} search={search} onEdit={openEdit} onMove={move} onDelete={delLead} menuId={menuId} setMenuId={setMenuId}/>}
+          {tab==="recherche" && <Recherche leads={leads} search={search} onOpen={openEdit}/>}
+          {tab==="biens" && <div className="empty"><Ic n="home" s={30}/><div className="et">Onglet Biens</div><div className="es">Prochaine étape : ajouter des biens (adresse, prix, loyer, rendement auto…).</div><div className="soon-badge">BIENTÔT</div></div>}
+          {tab==="matching" && <div className="empty"><Ic n="target" s={30}/><div className="et">Onglet Matching</div><div className="es">On y déposera un bien pour le scorer /100 contre chaque recherche (ville &gt; budget &gt; rendement &gt; surface &gt; typologie).</div><div className="soon-badge">BIENTÔT</div></div>}
+        </div>
       </div>
+
+      <nav className="bottom-nav">
+        {TABS.map(t=>(
+          <button key={t.id} className={"bn-item"+(tab===t.id?" active":"")} onClick={()=>setTab(t.id)}><Ic n={t.icon} s={20}/>{t.label}</button>
+        ))}
+      </nav>
 
       {modal && <LeadModal lead={modal.lead} gate={modal.gate} onSave={saveLead} onDelete={delLead} onClose={()=>setModal(null)}/>}
     </div>
@@ -529,7 +515,6 @@ function Root(){
   if(user===null) return <Login fb={fb}/>;
   return <Shell fb={fb} demo={false} user={user}/>;
 }
-
 function boot(){ ReactDOM.createRoot(document.getElementById("root")).render(<Root/>); }
 if(window.__fb) boot(); else window.addEventListener("fbready", boot, {once:true});
 </script>
