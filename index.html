@@ -24,8 +24,6 @@ body{background:var(--bg);color:var(--text);font-family:"Inter",sans-serif;font-
 .brand-font{font-family:"Barlow",sans-serif;}
 
 .app{display:flex;height:100vh;overflow:hidden;}
-
-/* SIDEBAR */
 .sb{width:212px;min-width:212px;background:var(--brown-dark);display:flex;flex-direction:column;flex-shrink:0;}
 .sb-brand{padding:20px 16px;display:flex;align-items:center;gap:11px;border-bottom:1px solid rgba(255,255,255,.08);}
 .sb-logo{width:38px;height:38px;background:var(--gold);border-radius:11px;display:flex;align-items:center;justify-content:center;color:var(--brown-dark);font-weight:800;font-size:19px;font-family:"Barlow",sans-serif;flex-shrink:0;}
@@ -44,7 +42,6 @@ body{background:var(--bg);color:var(--text);font-family:"Inter",sans-serif;font-
 .logout-btn{display:flex;align-items:center;gap:8px;width:100%;background:rgba(255,255,255,.08);border:none;color:rgba(255,255,255,.72);padding:9px 12px;border-radius:9px;cursor:pointer;font-family:"Inter",sans-serif;font-size:12.5px;font-weight:600;transition:all .15s;}
 .logout-btn:hover{background:rgba(255,255,255,.16);color:#fff;}
 
-/* CONTENT */
 .content{flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden;}
 .demo-banner{background:var(--accent-l);color:var(--accent-d);font-size:12px;font-weight:600;text-align:center;padding:6px 14px;flex-shrink:0;border-bottom:1px solid var(--accent-l2);}
 .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;flex-shrink:0;}
@@ -120,6 +117,28 @@ body{background:var(--bg);color:var(--text);font-family:"Inter",sans-serif;font-
 .empty .es{font-size:13px;max-width:360px;}
 .soon-badge{background:var(--gold);color:var(--brown-dark);font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px;letter-spacing:.03em;margin-top:4px;}
 
+/* BIENS */
+.biens-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(244px,1fr));gap:14px;}
+.bcard{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;cursor:pointer;transition:box-shadow .15s,transform .15s;box-shadow:var(--sh);}
+.bcard:hover{box-shadow:var(--sh-md);transform:translateY(-1px);}
+.bcard-hd{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:7px;}
+.bcard-title{font-family:"Barlow",sans-serif;font-weight:800;font-size:15px;color:var(--text);line-height:1.2;}
+.bcard-sub{font-size:11.5px;color:var(--text2);font-weight:600;margin-top:5px;}
+.bcard-price{font-family:"Barlow",sans-serif;font-size:20px;font-weight:800;color:var(--accent-d);letter-spacing:-.01em;}
+.bcard-price span{font-size:11px;font-weight:600;color:var(--text3);}
+.bcard-meta{font-size:11.5px;color:var(--text2);font-weight:600;margin-top:4px;}
+.bcard-rdt{color:var(--accent);font-weight:700;}
+.bcard-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px;padding-top:9px;border-top:1px solid var(--border);}
+.bcard-src{font-size:11px;color:var(--text3);font-weight:600;}
+.blink{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--accent);text-decoration:none;}
+.blink:hover{color:var(--accent-d);}
+.stbadge{font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;white-space:nowrap;flex-shrink:0;}
+.stbadge.dispo{background:var(--green-bg);color:#3F5A34;}
+.stbadge.offre{background:var(--orange-bg);color:var(--orange-fg);}
+.stbadge.vendu{background:#EAE4D8;color:var(--text3);}
+.rdt-hint{font-size:11px;color:var(--text3);margin-top:5px;}
+.rdt-hint b{color:var(--accent);font-weight:700;}
+
 .overlay{position:fixed;inset:0;background:rgba(74,58,43,.5);display:flex;align-items:center;justify-content:center;z-index:100;backdrop-filter:blur(4px);padding:20px;}
 .modal{background:var(--surface);border-radius:18px;padding:24px;width:500px;max-height:92vh;overflow-y:auto;box-shadow:var(--sh-lg);}
 .modal-title{font-size:19px;font-weight:800;color:var(--text);font-family:"Barlow",sans-serif;margin-bottom:4px;}
@@ -131,9 +150,11 @@ body{background:var(--bg);color:var(--text);font-family:"Inter",sans-serif;font-
 .fi{width:100%;background:var(--surface2);border:1.5px solid var(--border2);color:var(--text);padding:9px 12px;border-radius:9px;font-family:"Inter",sans-serif;font-size:13px;font-weight:500;outline:none;transition:all .15s;}
 .fi:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px var(--accent-l);}
 .fr{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.fr3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
 .seg{display:flex;gap:6px;flex-wrap:wrap;}
 .seg-btn{padding:8px 13px;border-radius:9px;border:1.5px solid var(--border2);background:var(--surface2);color:var(--text2);font-weight:700;font-size:12px;cursor:pointer;font-family:"Inter",sans-serif;transition:all .15s;}
 .seg-btn.active{background:var(--accent-l);border-color:var(--accent);color:var(--accent-d);}
+.chk{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);font-weight:600;cursor:pointer;padding:9px 0;}
 .fa{display:flex;gap:10px;justify-content:flex-end;margin-top:18px;padding-top:14px;border-top:1px solid var(--border);flex-wrap:wrap;}
 .ferr{color:#B4482F;font-size:12px;font-weight:600;margin-bottom:10px;}
 
@@ -143,7 +164,6 @@ body{background:var(--bg);color:var(--text);font-family:"Inter",sans-serif;font-
 .login-title{font-family:"Barlow",sans-serif;font-weight:800;font-size:21px;text-align:center;margin-bottom:2px;}
 .login-sub{text-align:center;font-size:12px;color:var(--text3);margin-bottom:24px;}
 
-/* BOTTOM NAV (mobile) */
 .bottom-nav{display:none;background:var(--surface);border-top:1px solid var(--border);padding:7px 4px;flex-shrink:0;}
 .bn-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--text3);font-size:9.5px;font-weight:700;background:none;border:none;font-family:"Barlow",sans-serif;padding:3px;cursor:pointer;}
 .bn-item.active{color:var(--accent-d);}
@@ -161,7 +181,7 @@ body{background:var(--bg);color:var(--text);font-family:"Inter",sans-serif;font-
   .board-scroll,.pane{padding:14px;}
   .overlay{padding:0;}
   .modal{width:100%;max-width:100%;max-height:100vh;border-radius:0;}
-  .fr{grid-template-columns:1fr;}
+  .fr,.fr3{grid-template-columns:1fr;}
   .mobile-logout{display:flex;}
 }
 </style>
@@ -209,6 +229,10 @@ const VILLES  = ["Mâcon","Villefranche","Autre"];
 const TYPOS   = ["Studio","T1","T2","T3","T4+"];
 const MEUBLE  = ["Nu","Meublé","Indifférent"];
 const TRAVAUX = ["Accepte travaux","Clé en main","Indifférent"];
+const ETATS   = ["À rénover","À rafraîchir","Refait"];
+const DPES     = ["","A","B","C","D","E","F","G"];
+const SOURCES  = ["Agent","MDB","Off-market","Autre"];
+const STATUTS  = ["Dispo","Sous offre","Vendu"];
 const RECH_STAGES = ["signature","recherche"];
 
 let _id = 100;
@@ -216,16 +240,21 @@ const uid = () => "d"+(++_id);
 const today = () => new Date().toISOString().slice(0,10);
 const fmtDate = (iso) => { if(!iso) return ""; const p=String(iso).split("-"); return p.length<3?iso:p[2]+"/"+p[1]+"/"+p[0].slice(2); };
 const asArray = (v)=> Array.isArray(v) ? v : (v ? [v] : []);
-const criteriaComplete = (d)=> !!(d && d.ville && d.budget && asArray(d.typos).length>0 && d.surface && d.rendement);
+const num = (s)=>{ const n=parseFloat(String(s==null?"":s).replace(/[^0-9.,]/g,"").replace(",",".")); return isNaN(n)?0:n; };
+const calcRendement = (loyer,prix,travaux)=>{ const base=num(prix)+num(travaux); const l=num(loyer); if(!base||!l) return ""; return String(Math.round(l*12/base*1000)/10); };
+const criteriaComplete = (d)=> !!(d && d.ville && d.budget && asArray(d.typos).length>0 && d.surface);
+const statutCls = (s)=> s==="Dispo"?"dispo":(s==="Sous offre"?"offre":"vendu");
 
 const blank = { nom:"", tel:"", email:"", ville:"Mâcon", budget:"", hono:"", typos:[], surface:"", rendement:"", meuble:"Indifférent", travaux:"Indifférent", note:"", col:"r1", date:today() };
+const blankBien = { titre:"", ville:"Mâcon", secteur:"", typo:"", surface:"", etat:"À rafraîchir", dpe:"", etage:"", ascenseur:false, prix:"", travaux:"", loyer:"", rendement:"", url:"", source:"Agent", statut:"Dispo", note:"", date:today() };
 
 const SEED = [
-  {id:uid(), col:"r1",        nom:"Thomas ROUX",     tel:"06 12 34 56 78", email:"thomas.r@mail.com", ville:"Mâcon",        budget:"120 000", hono:"8 900",  typos:["T2"],          surface:"35", rendement:"6",   meuble:"Meublé", travaux:"Accepte travaux", date:"2026-07-16", note:"Investisseur LMNP, 1er achat"},
-  {id:uid(), col:"signature", nom:"Marc DUPONT",     tel:"07 11 22 33 44", email:"marcd@mail.com",    ville:"Mâcon",        budget:"150 000", hono:"10 500", typos:["T2","T3"],     surface:"45", rendement:"5.5", meuble:"Indifférent", travaux:"Indifférent", date:"2026-07-18", note:"Mandat en cours"},
+  {id:uid(), col:"r1",        nom:"Thomas ROUX",     tel:"06 12 34 56 78", email:"thomas.r@mail.com", ville:"Mâcon",        budget:"120 000", hono:"8 900",  typos:["T2"],          surface:"35", rendement:"6",   meuble:"Meublé", travaux:"Accepte travaux", date:"2026-07-16", note:"Investisseur LMNP"},
   {id:uid(), col:"recherche", nom:"Léa VIDAL",       tel:"06 55 44 33 22", email:"lea.v@mail.com",    ville:"Mâcon",        budget:"110 000", hono:"8 900",  typos:["T1","Studio"], surface:"25", rendement:"6.5", meuble:"Meublé", travaux:"Accepte travaux", date:"2026-07-14", note:"Centre-ville"},
-  {id:uid(), col:"r2",        nom:"Antoine BERNARD", tel:"06 77 88 99 00", email:"",                  ville:"Villefranche", budget:"200 000", hono:"14 000", typos:["T3"],          surface:"60", rendement:"5",   meuble:"Nu", travaux:"Clé en main", date:"2026-07-11", note:""},
-  {id:uid(), col:"gagne",     nom:"Julie MOREL",     tel:"06 33 22 11 00", email:"juliem@mail.com",   ville:"Mâcon",        budget:"105 000", hono:"8 900",  typos:["Studio"],      surface:"20", rendement:"7",   meuble:"Meublé", travaux:"Accepte travaux", date:"2026-06-12", note:"Acté"},
+];
+const SEED_BIENS = [
+  {id:uid(), titre:"T2 rue Gambetta", ville:"Mâcon", secteur:"Centre", typo:"T2", surface:"38", etat:"À rafraîchir", dpe:"D", etage:"2e", ascenseur:false, prix:"115 000", travaux:"8 000", loyer:"620", rendement:"6.1", url:"", source:"Agent", statut:"Dispo", note:"", date:"2026-07-20"},
+  {id:uid(), titre:"Studio quai Lamartine", ville:"Mâcon", secteur:"Quais", typo:"Studio", surface:"22", etat:"Refait", dpe:"C", etage:"3e", ascenseur:true, prix:"78 000", travaux:"0", loyer:"430", rendement:"6.6", url:"", source:"Off-market", statut:"Dispo", note:"", date:"2026-07-19"},
 ];
 
 const Ic = ({n,s=14}) => {
@@ -241,16 +270,18 @@ const Ic = ({n,s=14}) => {
   if(n==="table")   return <svg {...p}><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="9" x2="9" y2="21"/></svg>;
   if(n==="home")    return <svg {...p}><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>;
   if(n==="target")  return <svg {...p}><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>;
+  if(n==="link")    return <svg {...p}><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>;
   return null;
 };
 
+// ─── CARTE PIPELINE ──────────────────────────────────────
 function Card({ d, onEdit, onMove, onDelete, onDragStart, menuOpen, onToggleMenu }){
   const parts = (d.nom||"").trim().split(/\s+/);
   const last = parts.length ? parts[parts.length-1] : "";
   const first = parts.slice(0,-1).join(" ");
   const cls = "card"+(d.col==="gagne"?" win":"")+(d.col==="sans_suite"?" lost":"");
   const typos = asArray(d.typos);
-  const critBits = [typos.join("/"), d.rendement?d.rendement+"% visé":"", d.surface?d.surface+" m²+":""].filter(Boolean).join(" · ");
+  const critBits = [typos.join("/"), d.surface?d.surface+" m²+":"", d.rendement?d.rendement+"% (indic.)":""].filter(Boolean).join(" · ");
   const needCrit = RECH_STAGES.includes(d.col) && !criteriaComplete(d);
   return (
     <div className={cls} draggable onDragStart={e=>onDragStart(e,d.id)} onClick={()=>onEdit(d)}>
@@ -283,6 +314,7 @@ function Card({ d, onEdit, onMove, onDelete, onDragStart, menuOpen, onToggleMenu
   );
 }
 
+// ─── MODALE DOSSIER ──────────────────────────────────────
 function LeadModal({ lead, gate, onSave, onDelete, onClose }){
   const editing = !!lead.id;
   const [f,setF] = useState({...blank, ...lead, typos:asArray(lead.typos)});
@@ -291,7 +323,7 @@ function LeadModal({ lead, gate, onSave, onDelete, onClose }){
   const toggleTypo = (t)=>setF(p=>({...p, typos: p.typos.includes(t)?p.typos.filter(x=>x!==t):[...p.typos,t]}));
   const save = () => {
     if(!f.nom.trim()){ setErr("Renseigne au moins un nom."); return; }
-    if(RECH_STAGES.includes(f.col) && !criteriaComplete(f)){ setErr("Pour « "+labelOf(f.col)+" », complète : ville, budget, typologie, surface et rendement."); return; }
+    if(RECH_STAGES.includes(f.col) && !criteriaComplete(f)){ setErr("Pour « "+labelOf(f.col)+" », complète : ville, budget, typologie et surface."); return; }
     onSave(f);
   };
   return (
@@ -299,7 +331,7 @@ function LeadModal({ lead, gate, onSave, onDelete, onClose }){
       <div className="modal" onClick={e=>e.stopPropagation()}>
         <div className="modal-title">{editing?(f.nom||"Dossier"):"Nouveau dossier"}</div>
         <div className="modal-sub">{editing?("Étape actuelle : "+labelOf(lead.col)):"Créé en R1"}</div>
-        {gate && <div className="gate">🔒 Pour lancer la recherche, les critères ci-dessous doivent être remplis.</div>}
+        {gate && <div className="gate">🔒 Pour lancer la recherche : ville, budget, typologie et surface doivent être remplis.</div>}
         {err && <div className="ferr">{err}</div>}
         <div className="modal-sec">Coordonnées</div>
         <div className="fg"><label className="fl">Nom du client</label><input className="fi" autoFocus value={f.nom} onChange={e=>set("nom",e.target.value)} placeholder="Prénom NOM"/></div>
@@ -320,7 +352,7 @@ function LeadModal({ lead, gate, onSave, onDelete, onClose }){
           <div className="fg"><label className="fl">Surface min (m²) *</label><input className="fi" type="number" value={f.surface} onChange={e=>set("surface",e.target.value)}/></div>
         </div>
         <div className="fr">
-          <div className="fg"><label className="fl">Rendement brut cible (%) *</label><input className="fi" type="number" step="0.1" value={f.rendement} onChange={e=>set("rendement",e.target.value)} placeholder="ex : 6"/></div>
+          <div className="fg"><label className="fl">Rendement cible (%) — indicatif</label><input className="fi" type="number" step="0.1" value={f.rendement} onChange={e=>set("rendement",e.target.value)} placeholder="ex : 6"/></div>
           <div className="fg"><label className="fl">Honoraires (€)</label><input className="fi" value={f.hono} onChange={e=>set("hono",e.target.value)} placeholder="8 900 min. ou 7%"/></div>
         </div>
         <div className="fg"><label className="fl">Location</label><div className="seg">{MEUBLE.map(m=>(<button key={m} type="button" className={"seg-btn"+(f.meuble===m?" active":"")} onClick={()=>set("meuble",m)}>{m}</button>))}</div></div>
@@ -337,6 +369,112 @@ function LeadModal({ lead, gate, onSave, onDelete, onClose }){
   );
 }
 
+// ─── MODALE BIEN ─────────────────────────────────────────
+function BienModal({ bien, onSave, onDelete, onClose }){
+  const editing = !!bien.id;
+  const [f,setF] = useState({...blankBien, ...bien});
+  const [autoR,setAutoR] = useState(true);
+  const [err,setErr] = useState("");
+  const set = (k,v)=>setF(p=>({...p,[k]:v}));
+  const setChiffre = (k,v)=>setF(p=>{ const nf={...p,[k]:v}; if(autoR) nf.rendement=calcRendement(nf.loyer,nf.prix,nf.travaux); return nf; });
+  const rdtAuto = calcRendement(f.loyer,f.prix,f.travaux);
+  const save = () => { if(!f.titre.trim() && !f.secteur.trim()){ setErr("Renseigne au moins un intitulé ou un secteur."); return; } if(!f.prix){ setErr("Le prix FAI est obligatoire."); return; } onSave(f); };
+  return (
+    <div className="overlay" onClick={onClose}>
+      <div className="modal" onClick={e=>e.stopPropagation()}>
+        <div className="modal-title">{editing?(f.titre||"Bien"):"Nouveau bien"}</div>
+        <div className="modal-sub">Fiche marché — le calcul clé-en-main détaillé se fera côté dossier client.</div>
+        {err && <div className="ferr">{err}</div>}
+
+        <div className="modal-sec">Identité</div>
+        <div className="fg"><label className="fl">Intitulé / adresse</label><input className="fi" autoFocus value={f.titre} onChange={e=>set("titre",e.target.value)} placeholder="ex : T2 rue Gambetta"/></div>
+        <div className="fr">
+          <div className="fg"><label className="fl">Ville</label><div className="seg">{VILLES.map(v=>(<button key={v} type="button" className={"seg-btn"+(f.ville===v?" active":"")} onClick={()=>set("ville",v)}>{v}</button>))}</div></div>
+          <div className="fg"><label className="fl">Secteur / quartier</label><input className="fi" value={f.secteur} onChange={e=>set("secteur",e.target.value)} placeholder="Centre, Quais…"/></div>
+        </div>
+
+        <div className="modal-sec">Caractéristiques</div>
+        <div className="fg"><label className="fl">Typologie</label><div className="seg">{TYPOS.map(t=>(<button key={t} type="button" className={"seg-btn"+(f.typo===t?" active":"")} onClick={()=>set("typo", f.typo===t?"":t)}>{t}</button>))}</div></div>
+        <div className="fr">
+          <div className="fg"><label className="fl">Surface (m²)</label><input className="fi" type="number" value={f.surface} onChange={e=>set("surface",e.target.value)}/></div>
+          <div className="fg"><label className="fl">État</label><div className="seg">{ETATS.map(t=>(<button key={t} type="button" className={"seg-btn"+(f.etat===t?" active":"")} onClick={()=>set("etat",t)}>{t}</button>))}</div></div>
+        </div>
+        <div className="fr3">
+          <div className="fg"><label className="fl">DPE</label><select className="fi" value={f.dpe} onChange={e=>set("dpe",e.target.value)}>{DPES.map(d=><option key={d} value={d}>{d||"—"}</option>)}</select></div>
+          <div className="fg"><label className="fl">Étage</label><input className="fi" value={f.etage} onChange={e=>set("etage",e.target.value)} placeholder="ex : 2e"/></div>
+          <div className="fg"><label className="fl">Ascenseur</label><label className="chk"><input type="checkbox" checked={!!f.ascenseur} onChange={e=>set("ascenseur",e.target.checked)}/> Oui</label></div>
+        </div>
+
+        <div className="modal-sec">Chiffres</div>
+        <div className="fr">
+          <div className="fg"><label className="fl">Prix FAI (€) *</label><input className="fi" value={f.prix} onChange={e=>setChiffre("prix",e.target.value)} placeholder="ex : 115 000"/></div>
+          <div className="fg"><label className="fl">Travaux estimés (€)</label><input className="fi" value={f.travaux} onChange={e=>setChiffre("travaux",e.target.value)} placeholder="0 si aucun"/></div>
+        </div>
+        <div className="fr">
+          <div className="fg"><label className="fl">Loyer mensuel estimé (€)</label><input className="fi" value={f.loyer} onChange={e=>setChiffre("loyer",e.target.value)} placeholder="ex : 620"/></div>
+          <div className="fg"><label className="fl">Rendement brut (%)</label><input className="fi" value={f.rendement} onChange={e=>{setAutoR(false);set("rendement",e.target.value);}} placeholder="auto"/></div>
+        </div>
+        {rdtAuto && <div className="rdt-hint">Calcul auto : loyer×12 ÷ (prix + travaux) = <b>{rdtAuto} %</b> brut{autoR?"":" — (tu as saisi une valeur manuelle)"}</div>}
+
+        <div className="modal-sec">Suivi</div>
+        <div className="fg"><label className="fl">Lien annonce</label><input className="fi" value={f.url} onChange={e=>set("url",e.target.value)} placeholder="https://…"/></div>
+        <div className="fr">
+          <div className="fg"><label className="fl">Source</label><select className="fi" value={f.source} onChange={e=>set("source",e.target.value)}>{SOURCES.map(s=><option key={s} value={s}>{s}</option>)}</select></div>
+          <div className="fg"><label className="fl">Statut</label><select className="fi" value={f.statut} onChange={e=>set("statut",e.target.value)}>{STATUTS.map(s=><option key={s} value={s}>{s}</option>)}</select></div>
+        </div>
+        <div className="fg"><label className="fl">Note</label><textarea className="fi" rows="2" value={f.note} onChange={e=>set("note",e.target.value)}/></div>
+
+        <div className="fa">
+          {editing && <button className="btn btn-g" style={{color:"#B4482F"}} onClick={()=>onDelete(bien.id)}>Supprimer</button>}
+          <button className="btn btn-g" onClick={onClose}>Annuler</button>
+          <button className="btn btn-p" onClick={save}>{editing?"Enregistrer":"Ajouter"}</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── ONGLET BIENS ────────────────────────────────────────
+function BiensPage({ biens, search, onOpen }){
+  const q = search.trim().toLowerCase();
+  const rows = biens
+    .filter(b=>!q || (b.titre||"").toLowerCase().includes(q) || (b.ville||"").toLowerCase().includes(q) || (b.secteur||"").toLowerCase().includes(q))
+    .sort((a,b)=>String(b.date||"").localeCompare(String(a.date||"")));
+  if(rows.length===0) return (
+    <div className="empty"><Ic n="home" s={30}/><div className="et">Aucun bien</div><div className="es">Ajoute des biens sourcés — ils serviront ensuite au Matching contre tes recherches actives.</div></div>
+  );
+  return (
+    <div className="pane">
+      <div className="biens-grid">
+        {rows.map(b=>{
+          const sub = [b.typo, b.surface?b.surface+" m²":"", b.etat].filter(Boolean).join(" · ");
+          return (
+            <div key={b.id} className="bcard" onClick={()=>onOpen(b)}>
+              <div className="bcard-hd">
+                <div className="bcard-title">{b.titre||b.secteur||"Bien"}</div>
+                <span className={"stbadge "+statutCls(b.statut)}>{b.statut}</span>
+              </div>
+              <div className="card-line"><Ic n="building" s={13}/><span className="ell">{b.ville}{b.secteur?" · "+b.secteur:""}</span></div>
+              {sub && <div className="bcard-sub">{sub}</div>}
+              <div className="card-sep"/>
+              <div className="bcard-price">{b.prix||"—"} €<span> FAI</span></div>
+              <div className="bcard-meta">
+                {b.travaux&&num(b.travaux)>0 ? "Travaux "+b.travaux+" € · " : ""}
+                {b.rendement ? <span className="bcard-rdt">{b.rendement} % brut</span> : ""}
+              </div>
+              <div className="bcard-foot">
+                <span className="bcard-src">{b.source}</span>
+                {b.url && <a className="blink" href={b.url} target="_blank" rel="noopener" onClick={e=>e.stopPropagation()}><Ic n="link" s={12}/>Annonce</a>}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ─── ONGLET RECHERCHE ────────────────────────────────────
 function Recherche({ leads, search, onOpen }){
   const q = search.trim().toLowerCase();
   const rows = leads.filter(l=>RECH_STAGES.includes(l.col))
@@ -420,44 +558,56 @@ function Login({ fb }){
 
 function Shell({ fb, demo, user }){
   const [leads,setLeads] = useState(demo?SEED:[]);
+  const [biens,setBiens] = useState(demo?SEED_BIENS:[]);
   const [tab,setTab] = useState("pipeline");
   const [modal,setModal] = useState(null);
   const [search,setSearch] = useState("");
   const [menuId,setMenuId] = useState(null);
 
   useEffect(()=>{ if(demo || !user) return;
-    return fb.onSnapshot(fb.collection(fb.db,"dossiers"), snap=>{ setLeads(snap.docs.map(d=>({id:d.id, ...d.data()}))); }, ()=>{});
+    const u1 = fb.onSnapshot(fb.collection(fb.db,"dossiers"), snap=>setLeads(snap.docs.map(d=>({id:d.id,...d.data()}))), ()=>{});
+    const u2 = fb.onSnapshot(fb.collection(fb.db,"biens"), snap=>setBiens(snap.docs.map(d=>({id:d.id,...d.data()}))), ()=>{});
+    return ()=>{ u1&&u1(); u2&&u2(); };
   },[user]);
   useEffect(()=>{ if(!menuId) return; const h=()=>setMenuId(null); window.addEventListener("click",h); return ()=>window.removeEventListener("click",h); },[menuId]);
 
+  // Dossiers
   const move = (id,col)=>{
     setMenuId(null);
     const lead = leads.find(l=>l.id===id); if(!lead) return;
-    if(col==="recherche" && !criteriaComplete(lead)){ setModal({lead:{...lead,col:"recherche"}, gate:true}); return; }
+    if(col==="recherche" && !criteriaComplete(lead)){ setModal({kind:"lead",lead:{...lead,col:"recherche"},gate:true}); return; }
     if(demo){ setLeads(ls=>ls.map(l=>l.id===id?{...l,col}:l)); } else { fb.updateDoc(fb.doc(fb.db,"dossiers",id),{col}); }
   };
-  const saveLead = (f)=>{
-    setModal(null);
+  const saveLead = (f)=>{ setModal(null);
     if(demo){ setLeads(ls=> f.id ? ls.map(l=>l.id===f.id?{...f}:l) : [...ls,{...f,id:uid()}]); }
-    else { const {id,...data}=f; if(id) fb.updateDoc(fb.doc(fb.db,"dossiers",id),data); else fb.addDoc(fb.collection(fb.db,"dossiers"),data); }
-  };
+    else { const {id,...data}=f; if(id) fb.updateDoc(fb.doc(fb.db,"dossiers",id),data); else fb.addDoc(fb.collection(fb.db,"dossiers"),data); } };
   const delLead = (id)=>{ setModal(null); setMenuId(null); if(demo){ setLeads(ls=>ls.filter(l=>l.id!==id)); } else { fb.deleteDoc(fb.doc(fb.db,"dossiers",id)); } };
-  const openEdit = (l)=>setModal({lead:l, gate:false});
+
+  // Biens
+  const saveBien = (f)=>{ setModal(null);
+    if(demo){ setBiens(bs=> f.id ? bs.map(b=>b.id===f.id?{...f}:b) : [...bs,{...f,id:uid()}]); }
+    else { const {id,...data}=f; if(id) fb.updateDoc(fb.doc(fb.db,"biens",id),data); else fb.addDoc(fb.collection(fb.db,"biens"),data); } };
+  const delBien = (id)=>{ setModal(null); if(demo){ setBiens(bs=>bs.filter(b=>b.id!==id)); } else { fb.deleteDoc(fb.doc(fb.db,"biens",id)); } };
+
+  const openEditLead = (l)=>setModal({kind:"lead",lead:l,gate:false});
+  const openEditBien = (b)=>setModal({kind:"bien",bien:b});
+  const onAdd = ()=> tab==="biens" ? setModal({kind:"bien",bien:{...blankBien}}) : setModal({kind:"lead",lead:{...blank},gate:false});
 
   const rechCount = leads.filter(l=>RECH_STAGES.includes(l.col)).length;
-  const showAdd = tab==="pipeline" || tab==="recherche";
-  const showSearch = tab==="pipeline" || tab==="recherche";
+  const showAdd = ["pipeline","recherche","biens"].includes(tab);
+  const showSearch = ["pipeline","recherche","biens"].includes(tab);
+  const addLabel = tab==="biens" ? "＋ Bien" : "＋ Dossier";
 
   const TABS = [
     {id:"pipeline",  label:"Pipeline",  icon:"board", count:leads.length},
     {id:"recherche", label:"Recherche", icon:"table", count:rechCount},
-    {id:"biens",     label:"Biens",     icon:"home",  soon:true},
+    {id:"biens",     label:"Biens",     icon:"home",  count:biens.length},
     {id:"matching",  label:"Matching",  icon:"target",soon:true},
   ];
   const META = {
     pipeline:  {t:"Pipeline",  s:leads.length+" dossier"+(leads.length>1?"s":"")+" au total"},
     recherche: {t:"Recherche", s:rechCount+" recherche"+(rechCount>1?"s":"")+" active"+(rechCount>1?"s":"")},
-    biens:     {t:"Biens",     s:"Bientôt disponible"},
+    biens:     {t:"Biens",     s:biens.length+" bien"+(biens.length>1?"s":"")+" en portefeuille"},
     matching:  {t:"Matching",  s:"Bientôt disponible"},
   };
 
@@ -482,25 +632,24 @@ function Shell({ fb, demo, user }){
           <div><div className="pt">{META[tab].t}</div><div className="ps">{META[tab].s}</div></div>
           <div className="tb-right">
             {showSearch && <div className="search-bar"><Ic n="search" s={14}/><input placeholder="Rechercher…" value={search} onChange={e=>setSearch(e.target.value)}/></div>}
-            {showAdd && <button className="btn btn-p" onClick={()=>setModal({lead:{...blank}, gate:false})}>＋ Dossier</button>}
+            {showAdd && <button className="btn btn-p" onClick={onAdd}>{addLabel}</button>}
             {!demo && <button className="mobile-logout" title="Se déconnecter" onClick={()=>fb.signOut(fb.auth)}><Ic n="logout" s={17}/></button>}
           </div>
         </div>
         <div className="body">
-          {tab==="pipeline" && <Pipeline leads={leads} search={search} onEdit={openEdit} onMove={move} onDelete={delLead} menuId={menuId} setMenuId={setMenuId}/>}
-          {tab==="recherche" && <Recherche leads={leads} search={search} onOpen={openEdit}/>}
-          {tab==="biens" && <div className="empty"><Ic n="home" s={30}/><div className="et">Onglet Biens</div><div className="es">Prochaine étape : ajouter des biens (adresse, prix, loyer, rendement auto…).</div><div className="soon-badge">BIENTÔT</div></div>}
-          {tab==="matching" && <div className="empty"><Ic n="target" s={30}/><div className="et">Onglet Matching</div><div className="es">On y déposera un bien pour le scorer /100 contre chaque recherche (ville &gt; budget &gt; rendement &gt; surface &gt; typologie).</div><div className="soon-badge">BIENTÔT</div></div>}
+          {tab==="pipeline" && <Pipeline leads={leads} search={search} onEdit={openEditLead} onMove={move} onDelete={delLead} menuId={menuId} setMenuId={setMenuId}/>}
+          {tab==="recherche" && <Recherche leads={leads} search={search} onOpen={openEditLead}/>}
+          {tab==="biens" && <BiensPage biens={biens} search={search} onOpen={openEditBien}/>}
+          {tab==="matching" && <div className="empty"><Ic n="target" s={30}/><div className="et">Onglet Matching</div><div className="es">On y déposera un bien pour le scorer /100 contre chaque recherche active (ville &gt; budget &gt; surface &gt; typologie ; rendement affiché mais hors score).</div><div className="soon-badge">BIENTÔT</div></div>}
         </div>
       </div>
 
       <nav className="bottom-nav">
-        {TABS.map(t=>(
-          <button key={t.id} className={"bn-item"+(tab===t.id?" active":"")} onClick={()=>setTab(t.id)}><Ic n={t.icon} s={20}/>{t.label}</button>
-        ))}
+        {TABS.map(t=>(<button key={t.id} className={"bn-item"+(tab===t.id?" active":"")} onClick={()=>setTab(t.id)}><Ic n={t.icon} s={20}/>{t.label}</button>))}
       </nav>
 
-      {modal && <LeadModal lead={modal.lead} gate={modal.gate} onSave={saveLead} onDelete={delLead} onClose={()=>setModal(null)}/>}
+      {modal?.kind==="lead" && <LeadModal lead={modal.lead} gate={modal.gate} onSave={saveLead} onDelete={delLead} onClose={()=>setModal(null)}/>}
+      {modal?.kind==="bien" && <BienModal bien={modal.bien} onSave={saveBien} onDelete={delBien} onClose={()=>setModal(null)}/>}
     </div>
   );
 }
