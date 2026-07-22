@@ -425,6 +425,9 @@ function BienModal({ bien, onSave, onDelete, onClose }){
   const set = (k,v)=>setF(p=>({...p,[k]:v}));
   const setChiffre = (k,v)=>setF(p=>{ const nf={...p,[k]:v}; if(autoR) nf.rendement=calcRendement(nf.loyer,nf.prix,nf.travaux); return nf; });
   const rdtAuto = calcRendement(f.loyer,f.prix,f.travaux);
+  const honoBien = honoraires(f.prix);
+  const coutBien = num(f.prix)>0 ? num(f.prix)+num(f.travaux)+honoBien : 0;
+  const eur = n => Math.round(n).toLocaleString("fr-FR")+" €";
   const save = () => { if(!f.titre.trim() && !f.secteur.trim()){ setErr("Renseigne au moins un intitulé ou un secteur."); return; } if(!f.prix){ setErr("Le prix FAI est obligatoire."); return; } onSave(f); };
   return (
     <div className="overlay" onClick={onClose}>
@@ -454,7 +457,7 @@ function BienModal({ bien, onSave, onDelete, onClose }){
 
         <div className="modal-sec">Chiffres</div>
         <div className="fr">
-          <div className="fg"><label className="fl">Prix FAI (€) *</label><input className="fi" value={f.prix} onChange={e=>setChiffre("prix",e.target.value)} placeholder="ex : 115 000"/></div>
+          <div className="fg"><label className="fl">Prix bien FAI (hors nos honos) €&nbsp;*</label><input className="fi" value={f.prix} onChange={e=>setChiffre("prix",e.target.value)} placeholder="ex : 115 000"/></div>
           <div className="fg"><label className="fl">Travaux estimés (€)</label><input className="fi" value={f.travaux} onChange={e=>setChiffre("travaux",e.target.value)} placeholder="0 si aucun"/></div>
         </div>
         <div className="fr">
@@ -462,6 +465,7 @@ function BienModal({ bien, onSave, onDelete, onClose }){
           <div className="fg"><label className="fl">Rendement brut (%)</label><input className="fi" value={f.rendement} onChange={e=>{setAutoR(false);set("rendement",e.target.value);}} placeholder="auto"/></div>
         </div>
         {rdtAuto && <div className="rdt-hint">Calcul auto : loyer×12 ÷ (prix + travaux) = <b>{rdtAuto} %</b> brut{autoR?"":" — (tu as saisi une valeur manuelle)"}</div>}
+        {num(f.prix)>0 && <div className="rdt-hint">Honoraires Purple : <b>{eur(honoBien)}</b> <span style={{color:"var(--text3)"}}>(max 8 900 € / 7%)</span> · Coût total client : <b>{eur(coutBien)}</b></div>}
 
         <div className="modal-sec">Suivi</div>
         <div className="fg"><label className="fl">Lien annonce</label><input className="fi" value={f.url} onChange={e=>set("url",e.target.value)} placeholder="https://…"/></div>
