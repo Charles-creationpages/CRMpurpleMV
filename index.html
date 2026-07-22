@@ -92,6 +92,7 @@ body{background:var(--bg);color:var(--text);font-family:"Inter",sans-serif;font-
 .card-hono span{font-weight:500;color:var(--text3);font-size:11px;}
 .card-date{text-align:right;font-size:11px;color:var(--text3);font-weight:500;margin-top:6px;}
 .card-todo{display:inline-block;background:var(--orange-bg);color:var(--orange-fg);font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:8px;}
+.card-rdv{display:inline-flex;align-items:center;gap:5px;background:var(--accent-l);color:var(--accent-d);font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;margin-top:7px;}
 
 .cmenu{position:absolute;top:38px;right:10px;z-index:20;background:var(--surface);border:1px solid var(--border2);border-radius:12px;box-shadow:var(--sh-lg);padding:6px;width:200px;}
 .cmenu-lbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;padding:5px 8px 4px;}
@@ -243,6 +244,7 @@ const { useState, useRef, useEffect } = React;
 
 const COLS = [
   {id:"sans_suite", label:"Sans suite",              color:"#9E9384"},
+  {id:"a_reprogrammer", label:"À reprogrammer",      color:"#B08968"},
   {id:"r1",         label:"R1",                      color:"#B7A489"},
   {id:"signature",  label:"En attente de signature", color:"#CBB68C"},
   {id:"recherche",  label:"En recherche",            color:"#C08552"},
@@ -267,6 +269,8 @@ let _id = 100;
 const uid = () => "d"+(++_id);
 const today = () => new Date().toISOString().slice(0,10);
 const fmtDate = (iso) => { if(!iso) return ""; const p=String(iso).split("-"); return p.length<3?iso:p[2]+"/"+p[1]+"/"+p[0].slice(2); };
+const MOIS_ABBR = ["janv.","févr.","mars","avr.","mai","juin","juil.","août","sept.","oct.","nov.","déc."];
+const fmtRdv = (v)=>{ if(!v) return ""; const m=String(v).match(/(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/); if(!m) return v; return (+m[3])+" "+MOIS_ABBR[(+m[2])-1]+" "+m[4]+"h"+m[5]; };
 const asArray = (v)=> Array.isArray(v) ? v : (v ? [v] : []);
 const getVilles = (d)=>{ if(!d) return []; const arr=asArray(d.villes); return arr.length ? arr : asArray(d.ville); };
 const VILLE_MAIN = ["Mâcon","Villefranche","Lyon"];
@@ -295,7 +299,7 @@ const scoreClient = (client, bien, W, tolB, tolS)=>{
 };
 const W_DEFAULT = { ville:38, budget:28, surface:18, typo:10, etat:6 };
 
-const blank = { nom:"", tel:"", email:"", villes:["Mâcon"], budget:"", hono:"", typos:[], surface:"", rendement:"", meuble:"Indifférent", travaux:"Indifférent", note:"", col:"r1", date:today() };
+const blank = { nom:"", tel:"", email:"", villes:["Mâcon"], budget:"", hono:"", typos:[], surface:"", rendement:"", meuble:"Indifférent", travaux:"Indifférent", rdv:"", note:"", col:"r1", date:today() };
 const blankBien = { titre:"", ville:"Mâcon", secteur:"", typo:"", surface:"", etat:"À rafraîchir", dpe:"", etage:"", ascenseur:false, prix:"", travaux:"", loyer:"", rendement:"", url:"", source:"Agent", statut:"Dispo", note:"", date:today() };
 
 const SEED = [
@@ -354,7 +358,8 @@ function Card({ d, onEdit, onMove, onDelete, onDragStart, menuOpen, onToggleMenu
       )}
       {d.tel   && <div className="card-line"><Ic n="phone" s={13}/><span>{d.tel}</span></div>}
       {getVilles(d).length>0 && <div className="card-line"><Ic n="building" s={13}/><span className="ell">Recherche : {getVilles(d).join("/")}</span></div>}
-      <div className="card-sep"/>
+      {d.rdv && <div className="card-rdv">📅 R1 · {fmtRdv(d.rdv)}</div>}
+      {d.budget && <div className="card-sep"/>}
       {d.budget && <div className="card-budget">{d.budget} €</div>}
       {critBits && <div className="card-crit">{critBits}</div>}
       {d.hono   && <div className="card-hono">{d.hono} € <span>· honoraires</span></div>}
@@ -395,6 +400,7 @@ function LeadModal({ lead, gate, onSave, onDelete, onClose }){
             <select className="fi" value={f.col} onChange={e=>set("col",e.target.value)}>{COLS.map(c=><option key={c.id} value={c.id}>{c.label}</option>)}</select></div>
           <div className="fg"><label className="fl">Date</label><input className="fi" type="date" value={f.date} onChange={e=>set("date",e.target.value)}/></div>
         </div>
+        <div className="fg"><label className="fl">R1 programmé (pastille sur la carte)</label><input className="fi" type="datetime-local" value={f.rdv||""} onChange={e=>set("rdv",e.target.value)}/></div>
         <div className="modal-sec">Critères de recherche</div>
         <div className="fg"><label className="fl">Ville(s) cible(s) * — plusieurs possibles</label><div className="seg">{VILLES.map(v=>(<button key={v} type="button" className={"seg-btn"+(asArray(f.villes).includes(v)?" active":"")} onClick={()=>toggleVille(v)}>{v}</button>))}</div></div>
         <div className="fg"><label className="fl">Typologie(s) * — plusieurs possibles</label><div className="seg">{TYPOS.map(t=>(<button key={t} type="button" className={"seg-btn"+(f.typos.includes(t)?" active":"")} onClick={()=>toggleTypo(t)}>{t}</button>))}</div></div>
@@ -711,10 +717,17 @@ const SEED_SIGNATURE = [
   {nom:"Emirhan DUYAR", tel:"+33760454778", email:"duyaremirhan@gmail.com", villes:["Lyon","Villefranche","Mâcon"], typos:["T2","T3","T4+"], budget:"400 000", surface:"35", note:"Immeuble / lots de biens · axe Lyon–Villefranche–Mâcon"},
   {nom:"Marie RICHONNIER", tel:"+33628845921", email:"richonnier.marie@gmail.com", villes:["Mâcon"], typos:["T1","T2","T3","T4+"], budget:"100 000", surface:"25", note:"Mâcon et alentours"},
   {nom:"Arthur JACCARD", tel:"+33640339780", email:"arthurjaccard@orange.fr", villes:["Villefranche"], typos:["T1","T2"], budget:"80 000", surface:"35", note:"Villefranche et alentours"},
+  {col:"a_reprogrammer", nom:"Angelo LAURENCO", tel:"+33613458284", email:"an.immo120@gmail.com"},
+  {col:"a_reprogrammer", nom:"Ollivier BARRET", tel:"+33669644423", email:"olivier.barret024@gmail.com"},
+  {col:"a_reprogrammer", nom:"Esteban BEN AMAR", tel:"0613961295", email:"gesprosud@gmail.com"},
+  {col:"r1", nom:"Tom DEN HARTIGH", tel:"+33782715843", email:"tomdenh01@gmail.com", rdv:"2026-07-24T11:00"},
+  {col:"r1", nom:"Ilona VOLAGE", tel:"+33646626979", email:"ilona.volagejomain9@gmail.com", rdv:"2026-07-24T14:00"},
+  {col:"r1", nom:"Romy SAVARINO", tel:"+33617605302", email:"romy.savarino04@gmail.com", rdv:"2026-07-23T18:15"},
+  {col:"r1", nom:"Laurent LAW-TAI", tel:"+262692206484", email:"lawtai.laurent@yahoo.fr", rdv:"2026-07-27T11:30"},
 ];
 async function seedSignatureBatch(fb){
   try{
-    const marker = fb.doc(fb.db,"_meta","seed_import_v1");
+    const marker = fb.doc(fb.db,"_meta","seed_import_v2");
     const mk = await fb.getDoc(marker);
     if(mk && mk.exists && mk.exists()) return;
     for(const c of SEED_SIGNATURE){
@@ -722,7 +735,7 @@ async function seedSignatureBatch(fb){
       await fb.setDoc(fb.doc(fb.db,"dossiers",sid), {
         nom:c.nom, tel:c.tel||"", email:c.email||"", villes:c.villes||[], budget:c.budget||"", hono:"",
         typos:c.typos||[], surface:c.surface||"", rendement:"", meuble:"Indifférent", travaux:"Indifférent",
-        note:c.note||"", col:"signature", date:today()
+        rdv:c.rdv||"", note:c.note||"", col:c.col||"signature", date:today()
       });
     }
     await fb.setDoc(marker, {done:true, at:Date.now()});
