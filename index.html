@@ -231,9 +231,9 @@ body{background:var(--bg);color:var(--text);font-family:"Inter",sans-serif;font-
   if (READY) {
     const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");
     const { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js");
-    const { getFirestore, collection, onSnapshot, addDoc, doc, updateDoc, deleteDoc } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
+    const { getFirestore, collection, onSnapshot, addDoc, doc, updateDoc, deleteDoc, getDoc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
     const app = initializeApp(firebaseConfig);
-    window.__fb = { ready:true, auth:getAuth(app), db:getFirestore(app), onAuthStateChanged, signInWithEmailAndPassword, signOut, collection, onSnapshot, addDoc, doc, updateDoc, deleteDoc };
+    window.__fb = { ready:true, auth:getAuth(app), db:getFirestore(app), onAuthStateChanged, signInWithEmailAndPassword, signOut, collection, onSnapshot, addDoc, doc, updateDoc, deleteDoc, getDoc, setDoc };
   } else { window.__fb = { ready:false }; }
   window.dispatchEvent(new Event("fbready"));
 </script>
@@ -253,7 +253,7 @@ const COLS = [
   {id:"gagne",      label:"Gagné",                   color:"#5E7A4E"},
 ];
 const labelOf = (id)=>{ const c=COLS.find(x=>x.id===id); return c?c.label:id; };
-const VILLES  = ["Mâcon","Villefranche","Autre"];
+const VILLES  = ["Mâcon","Villefranche","Lyon","Autre"];
 const TYPOS   = ["Studio","T1","T2","T3","T4+"];
 const MEUBLE  = ["Nu","Meublé","Indifférent"];
 const TRAVAUX = ["Accepte travaux","Clé en main","Indifférent"];
@@ -268,20 +268,23 @@ const uid = () => "d"+(++_id);
 const today = () => new Date().toISOString().slice(0,10);
 const fmtDate = (iso) => { if(!iso) return ""; const p=String(iso).split("-"); return p.length<3?iso:p[2]+"/"+p[1]+"/"+p[0].slice(2); };
 const asArray = (v)=> Array.isArray(v) ? v : (v ? [v] : []);
+const getVilles = (d)=>{ if(!d) return []; const arr=asArray(d.villes); return arr.length ? arr : asArray(d.ville); };
+const VILLE_MAIN = ["Mâcon","Villefranche","Lyon"];
 const num = (s)=>{ const n=parseFloat(String(s==null?"":s).replace(/[^0-9.,]/g,"").replace(",",".")); return isNaN(n)?0:n; };
 const calcRendement = (loyer,prix,travaux)=>{ const base=num(prix)+num(travaux); const l=num(loyer); if(!base||!l) return ""; return String(Math.round(l*12/base*1000)/10); };
-const criteriaComplete = (d)=> !!(d && d.ville && d.budget && asArray(d.typos).length>0 && d.surface);
+const criteriaComplete = (d)=> !!(d && getVilles(d).length>0 && d.budget && asArray(d.typos).length>0 && d.surface);
 const statutCls = (s)=> s==="Dispo"?"dispo":(s==="Sous offre"?"offre":"vendu");
 const honoraires = (prix)=>{ const p=num(prix); return p>0 ? Math.max(8900, p*0.07) : 0; };
 const TYPO_ORDER = ["Studio","T1","T2","T3","T4+"];
-const villeFactor = (a,b)=>{ if(!a||!b) return 0; if(a===b) return 1; const main=x=>x==="Mâcon"||x==="Villefranche"; return (main(a)&&main(b))?0.5:0.2; };
+const villePair = (a,b)=>{ if(!a||!b) return 0; if(a===b) return 1; const m=x=>VILLE_MAIN.includes(x); return (m(a)&&m(b))?0.5:0.2; };
+const villeFactor = (bienVille, clientVilles)=>{ const cv=asArray(clientVilles); if(!bienVille||cv.length===0) return 0; return Math.max.apply(null, cv.map(c=>villePair(bienVille,c))); };
 const typoFactor = (bt, cts)=>{ const ct=asArray(cts); if(!bt||ct.length===0) return 0; const bi=TYPO_ORDER.indexOf(bt); if(bi<0) return 0; let best=99; ct.forEach(t=>{ const i=TYPO_ORDER.indexOf(t); if(i>=0) best=Math.min(best,Math.abs(bi-i)); }); return best===99?0:Math.max(0, 1 - 0.33*best); };
 const budgetFactor = (cout, budget, tol)=>{ if(budget<=0) return 0; const over=Math.max(0,(cout-budget)/budget); return 1/(1+over/(tol||0.0001)); };
 const surfaceFactor = (sb, smin, tol)=>{ if(smin<=0) return 1; if(sb<=0) return 0; if(sb>=smin) return 1; const under=(smin-sb)/smin; return 1/(1+under/(tol||0.0001)); };
 const etatFactor = (travaux, etat)=>{ if(!etat) return 0.5; if(travaux==="Clé en main") return etat==="Refait"?1:(etat==="À rafraîchir"?0.6:0.2); return 1; };
 const scoreClient = (client, bien, W, tolB, tolS)=>{
   const cout = num(bien.prix) + num(bien.travaux) + honoraires(bien.prix);
-  const villePts  = W.ville   * villeFactor(bien.ville, client.ville);
+  const villePts  = W.ville   * villeFactor(bien.ville, getVilles(client));
   const budgetPts = W.budget  * budgetFactor(cout, num(client.budget), tolB);
   const surfPts   = W.surface * surfaceFactor(num(bien.surface), num(client.surface), tolS);
   const typoPts   = W.typo    * typoFactor(bien.typo, client.typos);
@@ -292,7 +295,7 @@ const scoreClient = (client, bien, W, tolB, tolS)=>{
 };
 const W_DEFAULT = { ville:38, budget:28, surface:18, typo:10, etat:6 };
 
-const blank = { nom:"", tel:"", email:"", ville:"Mâcon", budget:"", hono:"", typos:[], surface:"", rendement:"", meuble:"Indifférent", travaux:"Indifférent", note:"", col:"r1", date:today() };
+const blank = { nom:"", tel:"", email:"", villes:["Mâcon"], budget:"", hono:"", typos:[], surface:"", rendement:"", meuble:"Indifférent", travaux:"Indifférent", note:"", col:"r1", date:today() };
 const blankBien = { titre:"", ville:"Mâcon", secteur:"", typo:"", surface:"", etat:"À rafraîchir", dpe:"", etage:"", ascenseur:false, prix:"", travaux:"", loyer:"", rendement:"", url:"", source:"Agent", statut:"Dispo", note:"", date:today() };
 
 const SEED = [
@@ -350,7 +353,7 @@ function Card({ d, onEdit, onMove, onDelete, onDragStart, menuOpen, onToggleMenu
         </div>
       )}
       {d.tel   && <div className="card-line"><Ic n="phone" s={13}/><span>{d.tel}</span></div>}
-      {d.ville && <div className="card-line"><Ic n="building" s={13}/><span className="ell">Recherche : {d.ville}</span></div>}
+      {getVilles(d).length>0 && <div className="card-line"><Ic n="building" s={13}/><span className="ell">Recherche : {getVilles(d).join("/")}</span></div>}
       <div className="card-sep"/>
       {d.budget && <div className="card-budget">{d.budget} €</div>}
       {critBits && <div className="card-crit">{critBits}</div>}
@@ -364,14 +367,15 @@ function Card({ d, onEdit, onMove, onDelete, onDragStart, menuOpen, onToggleMenu
 // ─── MODALE DOSSIER ──────────────────────────────────────
 function LeadModal({ lead, gate, onSave, onDelete, onClose }){
   const editing = !!lead.id;
-  const [f,setF] = useState({...blank, ...lead, typos:asArray(lead.typos)});
+  const [f,setF] = useState({...blank, ...lead, typos:asArray(lead.typos), villes:(getVilles(lead).length?getVilles(lead):["Mâcon"])});
   const [err,setErr] = useState("");
   const set = (k,v)=>setF(p=>({...p,[k]:v}));
   const toggleTypo = (t)=>setF(p=>({...p, typos: p.typos.includes(t)?p.typos.filter(x=>x!==t):[...p.typos,t]}));
-  const save = () => {
+  const toggleVille = (v)=>setF(p=>{ const cur=asArray(p.villes); return {...p, villes: cur.includes(v)?cur.filter(x=>x!==v):[...cur,v]}; });
+  const save = (next) => {
     if(!f.nom.trim()){ setErr("Renseigne au moins un nom."); return; }
     if(RECH_STAGES.includes(f.col) && !criteriaComplete(f)){ setErr("Pour « "+labelOf(f.col)+" », complète : ville, budget, typologie et surface."); return; }
-    onSave(f);
+    onSave(f, next);
   };
   return (
     <div className="overlay" onClick={onClose}>
@@ -392,7 +396,7 @@ function LeadModal({ lead, gate, onSave, onDelete, onClose }){
           <div className="fg"><label className="fl">Date</label><input className="fi" type="date" value={f.date} onChange={e=>set("date",e.target.value)}/></div>
         </div>
         <div className="modal-sec">Critères de recherche</div>
-        <div className="fg"><label className="fl">Ville cible *</label><div className="seg">{VILLES.map(v=>(<button key={v} type="button" className={"seg-btn"+(f.ville===v?" active":"")} onClick={()=>set("ville",v)}>{v}</button>))}</div></div>
+        <div className="fg"><label className="fl">Ville(s) cible(s) * — plusieurs possibles</label><div className="seg">{VILLES.map(v=>(<button key={v} type="button" className={"seg-btn"+(asArray(f.villes).includes(v)?" active":"")} onClick={()=>toggleVille(v)}>{v}</button>))}</div></div>
         <div className="fg"><label className="fl">Typologie(s) * — plusieurs possibles</label><div className="seg">{TYPOS.map(t=>(<button key={t} type="button" className={"seg-btn"+(f.typos.includes(t)?" active":"")} onClick={()=>toggleTypo(t)}>{t}</button>))}</div></div>
         <div className="fr">
           <div className="fg"><label className="fl">Budget max (€) *</label><input className="fi" value={f.budget} onChange={e=>set("budget",e.target.value)} placeholder="ex : 120 000"/></div>
@@ -409,7 +413,8 @@ function LeadModal({ lead, gate, onSave, onDelete, onClose }){
         <div className="fa">
           {editing && <button className="btn btn-g" style={{color:"#B4482F"}} onClick={()=>onDelete(lead.id)}>Supprimer</button>}
           <button className="btn btn-g" onClick={onClose}>Annuler</button>
-          <button className="btn btn-p" onClick={save}>{editing?"Enregistrer":"Ajouter"}</button>
+          {!editing && <button className="btn btn-g" onClick={()=>save(true)}>Ajouter &amp; suivant</button>}
+          <button className="btn btn-p" onClick={()=>save(false)}>{editing?"Enregistrer":"Ajouter"}</button>
         </div>
       </div>
     </div>
@@ -529,7 +534,7 @@ function BiensPage({ biens, search, onOpen }){
 function Recherche({ leads, search, onOpen }){
   const q = search.trim().toLowerCase();
   const rows = leads.filter(l=>RECH_STAGES.includes(l.col))
-    .filter(l=>!q || (l.nom||"").toLowerCase().includes(q) || (l.ville||"").toLowerCase().includes(q))
+    .filter(l=>!q || (l.nom||"").toLowerCase().includes(q) || getVilles(l).join(" ").toLowerCase().includes(q))
     .sort((a,b)=>String(a.nom).localeCompare(String(b.nom)));
   if(rows.length===0) return (
     <div className="empty"><Ic n="table" s={30}/><div className="et">Aucune recherche active</div>
@@ -546,7 +551,7 @@ function Recherche({ leads, search, onOpen }){
               <tr key={l.id} onClick={()=>onOpen(l)}>
                 <td className="td-name">{l.nom}{!done && <span className="badge-todo">à compléter</span>}</td>
                 <td><span className="chip chip-stage">{labelOf(l.col)}</span></td>
-                <td><span className="chip">{l.ville||"—"}</span></td>
+                <td>{getVilles(l).map(v=><span key={v} className="chip" style={{marginRight:4}}>{v}</span>)}{getVilles(l).length===0&&"—"}</td>
                 <td>{asArray(l.typos).join(", ")||"—"}</td>
                 <td>{l.surface?l.surface+" m²":"—"}</td>
                 <td>{l.budget?l.budget+" €":"—"}</td>
@@ -566,7 +571,7 @@ function Pipeline({ leads, search, onEdit, onMove, onDelete, menuId, setMenuId }
   const [dragOver,setDragOver] = useState(null);
   const dragId = useRef(null);
   const q = search.trim().toLowerCase();
-  const visible = leads.filter(l=>!q || (l.nom||"").toLowerCase().includes(q) || (l.ville||"").toLowerCase().includes(q) || (l.tel||"").includes(q) || (l.email||"").toLowerCase().includes(q));
+  const visible = leads.filter(l=>!q || (l.nom||"").toLowerCase().includes(q) || getVilles(l).join(" ").toLowerCase().includes(q) || (l.tel||"").includes(q) || (l.email||"").toLowerCase().includes(q));
   const byDate = (a,b)=>String(b.date||"").localeCompare(String(a.date||""));
   const onDragStart = (e,id)=>{ dragId.current=id; e.dataTransfer.setData("text",id); };
   return (
@@ -677,7 +682,7 @@ function MatchingPage({ biens, leads }){
               <div className="mt-score" style={{color:scoreColor(score),borderColor:scoreColor(score)}}>{score}</div>
               <div className="mt-info">
                 <div className="mt-name">{c.nom} <span className="chip chip-stage">{labelOf(c.col)}</span></div>
-                <div className="mt-ctx">{c.ville} · {asArray(c.typos).join("/")} · budget {c.budget} € · {c.surface} m²+</div>
+                <div className="mt-ctx">{getVilles(c).join("/")} · {asArray(c.typos).join("/")} · budget {c.budget} € · {c.surface} m²+</div>
                 <div className="mt-axes">
                   <span className={"ax"+(villePts>=W.ville*0.6?" ok":"")}>Ville {Math.round(villePts)}/{W.ville}</span>
                   <span className={"ax"+(budgetPts>=W.budget*0.6?" ok":"")}>Budget {Math.round(budgetPts)}/{W.budget}</span>
@@ -694,6 +699,36 @@ function MatchingPage({ biens, leads }){
   );
 }
 
+// ─── IMPORT UNIQUE : clients en attente de signature ─────
+const SEED_SIGNATURE = [
+  {nom:"Paul SAINT-CYR", tel:"0632679325", email:"paulostcyr1@gmail.com", villes:["Villefranche"], typos:["T1","T2"], budget:"85 000", surface:"25", note:"Secteur Anse (+10 km, proche Villefranche)"},
+  {nom:"Gilles COLLARD", tel:"+33776989442", email:"gilcollard@yahoo.fr", villes:["Villefranche"], typos:["T1","T2"], budget:"90 000", surface:"20", note:""},
+  {nom:"Yann ALAJBEG", tel:"+33768774457", email:"y.alajbeg@yahoo.fr", villes:["Mâcon"], typos:["Studio","T1","T2","T3","T4+"], budget:"350 000", surface:"20", note:"Secteur Saint-Laurent · toutes typologies"},
+  {nom:"Hugo MECHAIN", tel:"+33772501476", email:"hugomechain@icloud.com", villes:["Villefranche"], typos:["T1","T2","T3"], budget:"130 000", surface:"30", note:"Secteur Belleville (+20 km)"},
+  {nom:"Corentin GOYARD", tel:"+33766182137", email:"corentingoyardcg@gmail.com", villes:["Villefranche"], typos:["T1","T2"], budget:"100 000", surface:"25", note:"Villefranche et alentours"},
+  {nom:"Loic TOULLELAN", tel:"+33786134252", email:"loic_254@yahoo.co.uk", villes:["Mâcon"], typos:["T1","T2"], budget:"80 000", surface:"20", note:"Mâcon +5 km"},
+  {nom:"Dimitri GRIZARD", tel:"+33664230554", email:"dimitri.gzd@gmail.com", villes:["Lyon","Villefranche","Mâcon"], typos:["T1","T2","T3","T4+"], budget:"200 000", surface:"30", note:"Axe Lyon–Villefranche–Mâcon"},
+  {nom:"Emirhan DUYAR", tel:"+33760454778", email:"duyaremirhan@gmail.com", villes:["Lyon","Villefranche","Mâcon"], typos:["T2","T3","T4+"], budget:"400 000", surface:"35", note:"Immeuble / lots de biens · axe Lyon–Villefranche–Mâcon"},
+  {nom:"Marie RICHONNIER", tel:"+33628845921", email:"richonnier.marie@gmail.com", villes:["Mâcon"], typos:["T1","T2","T3","T4+"], budget:"100 000", surface:"25", note:"Mâcon et alentours"},
+  {nom:"Arthur JACCARD", tel:"+33640339780", email:"arthurjaccard@orange.fr", villes:["Villefranche"], typos:["T1","T2"], budget:"80 000", surface:"35", note:"Villefranche et alentours"},
+];
+async function seedSignatureBatch(fb){
+  try{
+    const marker = fb.doc(fb.db,"_meta","seed_import_v1");
+    const mk = await fb.getDoc(marker);
+    if(mk && mk.exists && mk.exists()) return;
+    for(const c of SEED_SIGNATURE){
+      const sid = "seed-"+String(c.email||c.nom).toLowerCase().replace(/[^a-z0-9]/g,"");
+      await fb.setDoc(fb.doc(fb.db,"dossiers",sid), {
+        nom:c.nom, tel:c.tel||"", email:c.email||"", villes:c.villes||[], budget:c.budget||"", hono:"",
+        typos:c.typos||[], surface:c.surface||"", rendement:"", meuble:"Indifférent", travaux:"Indifférent",
+        note:c.note||"", col:"signature", date:today()
+      });
+    }
+    await fb.setDoc(marker, {done:true, at:Date.now()});
+  }catch(e){}
+}
+
 function Shell({ fb, demo, user }){
   const [leads,setLeads] = useState(demo?SEED:[]);
   const [biens,setBiens] = useState(demo?SEED_BIENS:[]);
@@ -707,6 +742,8 @@ function Shell({ fb, demo, user }){
     const u2 = fb.onSnapshot(fb.collection(fb.db,"biens"), snap=>setBiens(snap.docs.map(d=>({id:d.id,...d.data()}))), ()=>{});
     return ()=>{ u1&&u1(); u2&&u2(); };
   },[user]);
+  const seededRef = useRef(false);
+  useEffect(()=>{ if(demo || !user || seededRef.current) return; seededRef.current=true; if(fb.getDoc && fb.setDoc) seedSignatureBatch(fb); },[user]);
   useEffect(()=>{ if(!menuId) return; const h=()=>setMenuId(null); window.addEventListener("click",h); return ()=>window.removeEventListener("click",h); },[menuId]);
 
   // Dossiers
@@ -716,9 +753,10 @@ function Shell({ fb, demo, user }){
     if(col==="recherche" && !criteriaComplete(lead)){ setModal({kind:"lead",lead:{...lead,col:"recherche"},gate:true}); return; }
     if(demo){ setLeads(ls=>ls.map(l=>l.id===id?{...l,col}:l)); } else { fb.updateDoc(fb.doc(fb.db,"dossiers",id),{col}); }
   };
-  const saveLead = (f)=>{ setModal(null);
+  const saveLead = (f, next)=>{
     if(demo){ setLeads(ls=> f.id ? ls.map(l=>l.id===f.id?{...f}:l) : [...ls,{...f,id:uid()}]); }
-    else { const {id,...data}=f; if(id) fb.updateDoc(fb.doc(fb.db,"dossiers",id),data); else fb.addDoc(fb.collection(fb.db,"dossiers"),data); } };
+    else { const {id,...data}=f; if(id) fb.updateDoc(fb.doc(fb.db,"dossiers",id),data); else fb.addDoc(fb.collection(fb.db,"dossiers"),data); }
+    if(next) setModal({kind:"lead", lead:{...blank, col:f.col}, gate:false}); else setModal(null); };
   const delLead = (id)=>{ setModal(null); setMenuId(null); if(demo){ setLeads(ls=>ls.filter(l=>l.id!==id)); } else { fb.deleteDoc(fb.doc(fb.db,"dossiers",id)); } };
 
   // Biens
