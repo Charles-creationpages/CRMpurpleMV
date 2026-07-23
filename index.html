@@ -584,12 +584,13 @@ function Pipeline({ leads, search, onEdit, onMove, onDelete, menuId, setMenuId }
   const q = search.trim().toLowerCase();
   const visible = leads.filter(l=>!q || (l.nom||"").toLowerCase().includes(q) || getVilles(l).join(" ").toLowerCase().includes(q) || (l.tel||"").includes(q) || (l.email||"").toLowerCase().includes(q));
   const byDate = (a,b)=>String(b.date||"").localeCompare(String(a.date||""));
+  const byRdv = (a,b)=>{ const ra=a.rdv||"", rb=b.rdv||""; if(ra&&rb) return ra.localeCompare(rb); if(ra) return -1; if(rb) return 1; return byDate(a,b); };
   const onDragStart = (e,id)=>{ dragId.current=id; e.dataTransfer.setData("text",id); };
   return (
     <div className="board-scroll">
       <div className="kb-wrap">
         {COLS.map(col=>{
-          const items = visible.filter(l=>l.col===col.id).sort(byDate);
+          const items = visible.filter(l=>l.col===col.id).sort((col.id==="r1"||col.id==="a_reprogrammer")?byRdv:byDate);
           return (
             <div key={col.id} className={"kb-col"+(dragOver===col.id?" drag-over":"")}
               onDragOver={e=>{e.preventDefault();setDragOver(col.id);}} onDragLeave={()=>setDragOver(null)}
