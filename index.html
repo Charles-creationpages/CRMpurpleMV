@@ -261,7 +261,7 @@ const COLS = [
 ];
 const labelOf = (id)=>{ const c=COLS.find(x=>x.id===id); return c?c.label:id; };
 const VILLES  = ["Mâcon","Villefranche","Lyon","Autre"];
-const TYPOS   = ["Studio","T1","T2","T3","T4+"];
+const TYPOS   = ["Studio","T1","T2","T3","T4+","Plateau"];
 const MEUBLE  = ["Nu","Meublé","Indifférent"];
 const TRAVAUX = ["Accepte travaux","Clé en main","Indifférent"];
 const ETATS   = ["À rénover","À rafraîchir","Refait"];
@@ -287,7 +287,7 @@ const honoraires = (prix)=>{ const p=num(prix); return p>0 ? Math.max(8900, p*0.
 const TYPO_ORDER = ["Studio","T1","T2","T3","T4+"];
 const villePair = (a,b)=>{ if(!a||!b) return 0; if(a===b) return 1; const m=x=>VILLE_MAIN.includes(x); return (m(a)&&m(b))?0.5:0.2; };
 const villeFactor = (bienVille, clientVilles)=>{ const cv=asArray(clientVilles); if(!bienVille||cv.length===0) return 0; return Math.max.apply(null, cv.map(c=>villePair(bienVille,c))); };
-const typoFactor = (bt, cts)=>{ const ct=asArray(cts); if(!bt||ct.length===0) return 0; const bi=TYPO_ORDER.indexOf(bt); if(bi<0) return 0; let best=99; ct.forEach(t=>{ const i=TYPO_ORDER.indexOf(t); if(i>=0) best=Math.min(best,Math.abs(bi-i)); }); return best===99?0:Math.max(0, 1 - 0.33*best); };
+const typoFactor = (bt, cts)=>{ const ct=asArray(cts); if(!bt||ct.length===0) return 0; if(bt==="Plateau"||ct.indexOf("Plateau")>=0){ if(bt==="Plateau") return ct.indexOf("Plateau")>=0?1:0; } const bi=TYPO_ORDER.indexOf(bt); if(bi<0) return 0; let best=99; ct.forEach(t=>{ const i=TYPO_ORDER.indexOf(t); if(i>=0) best=Math.min(best,Math.abs(bi-i)); }); return best===99?0:Math.max(0, 1 - 0.33*best); };
 const budgetFactor = (cout, budget, tol)=>{ if(budget<=0) return 0; const over=Math.max(0,(cout-budget)/budget); return 1/(1+over/(tol||0.0001)); };
 const surfaceFactor = (sb, smin, tol)=>{ if(smin<=0) return 1; if(sb<=0) return 0; if(sb>=smin) return 1; const under=(smin-sb)/smin; return 1/(1+under/(tol||0.0001)); };
 const etatFactor = (travaux, etat)=>{ if(!etat) return 0.5; if(travaux==="Clé en main") return etat==="Refait"?1:(etat==="À rafraîchir"?0.6:0.2); return 1; };
